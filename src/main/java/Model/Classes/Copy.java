@@ -4,7 +4,7 @@ import Model.Enums.CopyType;
 import Model.Interfaces.manageCopies;
 import java.io.File;
 
-public class Copy extends Model implements manageCopies {
+public class Copy extends Model {
 
 	private long size;
 	private int departmentID;
@@ -37,13 +37,4 @@ public class Copy extends Model implements manageCopies {
 //		this.
 //	}
 
-	@Override
-	public boolean deleteCopy(int id) {
-		return false;
-	}
-
-	@Override
-	public boolean addCopy(File file, CopyType type, int departmentID) {
-		return false;
-	}
 }

@@ -1,30 +1,35 @@
 package Provider.Classes;
 
 import Model.Classes.Model;
+import View.Classes.View;
 import View.Interfaces.IView;
 import Model.Classes.User;
+import org.apache.commons.lang3.NotImplementedException;
+
 import java.util.*;
 
 public abstract class Provider {
 
-	protected ArrayList<Model> supportedModels = new ArrayList<>();
+	protected ArrayList<Class<? extends View>> supportedViews = new ArrayList<>();
 	protected User loggedUser;
 
-	/**
-	 * 
-	 * @param selectedView
-	 */
-	protected boolean checkViewArgs(IView selectedView) {
-		// TODO - implement Provider.Classes.Provider.checkViewArgs
-		throw new UnsupportedOperationException();
+	public Provider(User loggedUser){
+		this.loggedUser = loggedUser;
 	}
 
 	/**
-	 * 
-	 * @param args
+	 *
+	 * @param selectedView
 	 */
-	protected IView createView(Object... args) {
+	protected void checkView(IView selectedView) {
+		if(!supportedViews.contains(selectedView.getClass())){
+			throw new UnsupportedOperationException();
+		}
+	}
 
+
+	protected void createView() {
+		throw new UnsupportedOperationException();
 	}
 
 	/**

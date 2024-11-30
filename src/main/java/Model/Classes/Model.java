@@ -8,6 +8,11 @@ public abstract class Model {
 	private static int idCounterUs = 0;
 	private static int idCounterDep = 0;
 	private static int idCounterCop = 0;
+
+	public int getId() {
+		return id;
+	}
+
 	protected int id;
 	protected LocalDateTime deleted_at;
 	protected LocalDateTime created_at;

@@ -1,27 +1,59 @@
 package Model.Classes;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class DBManager {
 
 	Model dbManager;
-	private static DBManager instance;
+	private static DBManager instance = null;
 	private String db_host;
 	private String db_name;
 	private String db_user;
 	private String db_password;
-	private Database database;
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
+
+    private Database database;
 
 	private DBManager() {
-		// TODO - implement Model.Classes.Model.Classes.DBManager.Model.Classes.Model.Classes.DBManager
-		throw new UnsupportedOperationException();
 	}
 
+    private DBManager(Database db) {
+
+        this.database = db;
+    }
+
 	public static DBManager getInstance() {
-		if(instance == null) instance = new DBManager();
-		return instance;
+
+
+		if(DBManager.instance == null){
+            DBManager.instance = new DBManager();
+        }
+
+		return DBManager.instance;
 	}
+
+    public static DBManager getInstance(ArrayList<User> users, ArrayList<Department> departments, ArrayList<Application> applications) {
+
+        Database db = new Database();
+        db.setAllApplications(applications);
+        db.setAllDepartments(departments);
+        db.setAllUsers(users);
+
+        if(DBManager.instance == null){
+            DBManager.instance = new DBManager(db);
+        }
+
+        return DBManager.instance;
+    }
 
 	/**
 	 * 
@@ -86,8 +118,33 @@ public class DBManager {
 	 * @param model
 	 */
 	public boolean update(Model model) {
-		// TODO - implement Model.Classes.Model.Classes.DBManager.update
-		throw new UnsupportedOperationException();
+
+        switch(model) {
+            case Application application -> {
+                database.getAllApplications()
+                        .stream()
+                        .filter(app -> app.getId() == model.getId())
+                        .findFirst()
+                        .ifPresent(app -> {
+                            app = (Application) model;
+                        });
+            }case User user -> {
+                ArrayList<User> users = database.getAllUsers();
+                users.remove(user);
+                database.setAllUsers(users);
+            }case Copy copy -> {
+                ArrayList<Copy> copies = database.getAllCopies();
+                copies.remove(copy);
+                database.setAllCopies(copies);
+            }case Department department -> {
+                ArrayList<Department> departments = database.getAllDepartments();
+                departments.remove(department);
+                database.setAllDepartments(departments);
+            }case null, default -> {
+                return false;
+            }
+        }
+        return true;
 	}
 
 	public String getCorrectPassword(String username) {

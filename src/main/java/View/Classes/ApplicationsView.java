@@ -24,13 +24,8 @@ public class ApplicationsView extends View {
 	}
 
 	private void chooseAction() {
-		System.out.println("Wybierz dzialanie: ");
-		System.out.println("1. Wybierz wniosek");
-		System.out.println("2. Wyswietl zawartosc wniosku");
-		System.out.println("3. Zaakceptuj wniosek");
-		System.out.println("4. Odrzuc wniosek");
-		System.out.print("Wybierz opcje: ");
 
+		System.out.print("\nWybierz opcje: ");
 		Scanner scanner = new Scanner(System.in);
 		int choice = scanner.nextInt();
 		scanner.nextInt();
@@ -46,8 +41,7 @@ public class ApplicationsView extends View {
 	}
 
 	private void reset() {
-		// TODO - implement View.Classes.ApplicationsView.reset
-		throw new UnsupportedOperationException();
+		this.selectedApplicationId = -1;
 	}
 
 	private void showApplication() {
@@ -61,11 +55,12 @@ public class ApplicationsView extends View {
 	@Override
 	public void render() {
 		System.out.println("Widok wnioskow\n");
+		System.out.println("Wybierz dzialanie: ");
+		System.out.println("1. Wybierz wniosek");
+		System.out.println("2. Wyswietl zawartosc wniosku");
+		System.out.println("3. Zaakceptuj wniosek");
+		System.out.println("4. Odrzuc wniosek");
 		this.chooseAction();
 	}
 
-	@Override
-	public void reRender() {
-
-	}
 }

@@ -1,21 +1,33 @@
 package Provider.Classes;
 
 import Model.Classes.Application;
+import Model.Classes.Department;
+import Model.Classes.User;
 import Provider.Interfaces.listApplications;
 import Provider.Interfaces.manageApplications;
 import View.Classes.ApplicationsView;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import Model.Interfaces.exposeApplications;
 
 public class ApplicationsProvider extends Provider implements manageApplications, listApplications {
 
-	/**
-	 * 
-	 * @param assignedApplicationIds
-	 * @param assignedApplications
-	 */
-	public ApplicationsView createView(ArrayList<Integer> assignedApplicationIds, ArrayList<Application> assignedApplications) {
-		// TODO - implement Provider.Classes.Provider.Classes.ApplicationsProvider.createView
-		throw new UnsupportedOperationException();
+
+	private ArrayList<Application> assignedApplications;
+	public ApplicationsProvider(User loggedUser) {
+		super(loggedUser);
+		this.assignedApplications = exposeApplications.getApplications(loggedUser);
+		this.supportedViews = new ArrayList<>(List.of(ApplicationsView.class));
+	}
+
+	public void createView() {
+		ApplicationsView applicationsView = new ApplicationsView(assignedApplications.stream().map(Application::getDepartmentID).collect(Collectors.toCollection(ArrayList::new)), this);
+		this.checkView(applicationsView);
+		applicationsView.render();
+
 	}
 
 	@Override

@@ -13,6 +13,15 @@ public class Application extends Model implements exposeApplications {
 	private LocalDateTime considerationDate;
 	private final String description;
 	private String rejectedDescription;
+
+	public boolean isArchived() {
+		return isArchived;
+	}
+
+	public void setArchived(boolean archived) {
+		isArchived = archived;
+	}
+
 	private boolean isArchived;
 
 	public Application(int userID, int departmentID, String description) {
@@ -26,13 +35,12 @@ public class Application extends Model implements exposeApplications {
 		this.isArchived = false;
 	}
 
-	@Override
-	public int getUserID(int applicationID) {
+	public int getUserID() {
 		return this.userID;
 	}
 
-	@Override
-	public int getDepartmentID(int applicationID) {
+
+	public int getDepartmentID() {
 		return this.departmentID;
 	}
 
@@ -50,6 +58,11 @@ public class Application extends Model implements exposeApplications {
 	}
 
 	@Override
+	public boolean delete(){
+		this.isArchived = true;
+		return super.delete();
+	}
+	@Override
 	public void rejectApplication(int applicationID, String rejectedDescription) {
 		this.status = ApplicationStatus.REJECTED;
 		this.rejectedDescription = rejectedDescription;
@@ -58,8 +71,4 @@ public class Application extends Model implements exposeApplications {
 		this.considerationDate = LocalDateTime.now();
 	}
 
-	@Override
-	public ArrayList<Application> getApplications(User user) {
-		return null;
-	}
 }

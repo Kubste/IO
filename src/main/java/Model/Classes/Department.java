@@ -19,13 +19,13 @@ public class Department extends Model implements getDepartments {
 	 * @param address
 	 * @param administratorID
 	 */
-	public Department(int id, String name, String address, int administratorID) {
+	public Department(String name, String address, int administratorID, ArrayList<User> officials, ArrayList<User> citizens) {
 		super();
 		this.name = name;
 		this.address = address;
 		this.administratorID = administratorID;
-		this.officials = new ArrayList<>();
-		this.citizens = new ArrayList<>();
+		this.officials = officials;
+		this.citizens = citizens;
 	}
 
 	@Override

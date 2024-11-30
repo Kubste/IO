@@ -1,5 +1,6 @@
 package Provider.Classes;
 
+import Model.Classes.User;
 import Model.Enums.CopyType;
 import Model.Classes.Department;
 import Provider.Interfaces.listDepartments;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 public class CopyProvider extends Provider implements makeCopy, listDepartments {
 
 	Department selectedDepartment;
+
+	public CopyProvider(User loggedUser) {
+		super(loggedUser);
+	}
 
 	/**
 	 * 

@@ -1,5 +1,8 @@
 package Model.Interfaces;
 
+import Model.Classes.DBManager;
+import Model.Classes.User;
+
 public interface activeUser {
 
 	boolean isActive();
@@ -9,7 +12,10 @@ public interface activeUser {
 	 * @param username
 	 * @param password
 	 */
-	boolean login(String username, String password);
+	static User login(String username, String password){
+		DBManager.getInstance().getDatabase().getAllUsers().stream()
+
+	}
 
 	boolean logout();
 

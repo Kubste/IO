@@ -18,13 +18,14 @@ public class CopyView extends View {
 	}
 
 	private void chooseDepartment() {
-		System.out.print("Podaj ID urzedu: ");
+		System.out.print("\nPodaj ID urzedu: ");
 		Scanner scanner = new Scanner(System.in);
 		this.selectedDepartmentId = scanner.nextInt();
 		System.out.println("Wybrano urzad o ID: " + this.selectedDepartmentId);
 	}
 
 	private void chooseCopyType() {
+		System.out.println("\n");
 		System.out.print("Wybierz typ kopii (1 - calosciowa, 2 - przyrostowa): ");
 		Scanner scanner = new Scanner(System.in);
 		int copyType = scanner.nextInt();
@@ -34,27 +35,33 @@ public class CopyView extends View {
 	}
 
 	private void submit() {
-		this.provider.startCreateCopy(999999, this.selectedDepartmentId, this.selectedCopyType);
+		System.out.println("\n");
+		System.out.println("Tworzenie kopii...");
+		this.provider.startCreateCopy(this.loggedUserID, this.selectedDepartmentId, this.selectedCopyType);
 	}
 
 	private void reset() {
-		// TODO - implement View.Classes.CopyView.reset
-		throw new UnsupportedOperationException();
+		this.selectedCopyType = null;
+		this.selectedDepartmentId  = -1;
 	}
 
 	private void showSelectedParameters() {
+		System.out.println("\n");
 		System.out.println("Numer ID wybranego urzedu: " + this.selectedDepartmentId);
 		System.out.println("Wybrany typ kopii: " + this.selectedCopyType);
 	}
 
 	@Override
 	public void render() {
+
+		System.out.println("\n\n");
 		System.out.println("Widok kopii zapasowej\n");
 		System.out.println("Dostepne opcje:");
 		System.out.println("1. Wyswietl wybrane opcje");
-		System.out.println("2. Zmien wybrany urzad");
+		System.out.println("2. Wybierz urzad");
 		System.out.println("3. Wybierz typ kopii");
 		System.out.println("4. Wykonaj kopie zapasowa");
+		System.out.println("5. Reset wybranych opcji");
 		System.out.print("Wybierz opcje: ");
 
 		Scanner scanner = new Scanner(System.in);
@@ -68,8 +75,4 @@ public class CopyView extends View {
 		}
 	}
 
-	@Override
-	public void reRender() {
-
-	}
 }

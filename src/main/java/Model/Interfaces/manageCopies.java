@@ -1,5 +1,6 @@
 package Model.Interfaces;
 
+import Model.Classes.Copy;
 import Model.Enums.CopyType;
 import java.io.File;
 
@@ -17,6 +18,9 @@ public interface manageCopies {
 	 * @param type
 	 * @param departmentID
 	 */
-	boolean addCopy(File file, CopyType type, int departmentID);
+	static boolean addCopy(File file, CopyType type, int departmentID){
+		Copy copy = new Copy(file.getTotalSpace(), departmentID, file.getAbsolutePath(),type);
+		return true;
+	}
 
 }

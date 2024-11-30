@@ -12,6 +12,15 @@ public class User extends Model implements activeUser {
 	private String email;
 	private String password;
 	private String username;
+
+	public int getDepartmentID() {
+		return departmentID;
+	}
+
+	public void setDepartmentID(int departmentID) {
+		this.departmentID = departmentID;
+	}
+
 	private int departmentID;
 	private boolean isActive;
 
@@ -26,6 +35,7 @@ public class User extends Model implements activeUser {
 		this.departmentID = departmentID;
 		this.isActive = false;
 	}
+
 
 	public String getLastName() {
 		return this.lastName;
