@@ -10,7 +10,6 @@ public abstract class View implements IView {
 
 	public View(Provider provider) {
 		this.provider = provider;
-		this.loggedUserID = provider.getLoggerUserID();
+		this.loggedUserID = provider.getLoggedUserID();
 	}
-
 }

@@ -21,7 +21,7 @@ public class CopyView extends View {
 		System.out.print("\nPodaj ID urzedu: ");
 		Scanner scanner = new Scanner(System.in);
 		this.selectedDepartmentId = scanner.nextInt();
-		System.out.println("Wybrano urzad o ID: " + this.selectedDepartmentId);
+		System.out.println(STR."Wybrano urzad o ID: \{this.selectedDepartmentId}");
 	}
 
 	private void chooseCopyType() {
@@ -31,7 +31,7 @@ public class CopyView extends View {
 		int copyType = scanner.nextInt();
 		if(copyType == 1) this.selectedCopyType = CopyType.FULL;
 		else if(copyType == 2) this.selectedCopyType = CopyType.INCREMENTAL;
-		System.out.println("Wybrano typ kopii: " + selectedCopyType);
+		System.out.println(STR."Wybrano typ kopii: \{selectedCopyType}");
 	}
 
 	private void submit() {
@@ -47,8 +47,8 @@ public class CopyView extends View {
 
 	private void showSelectedParameters() {
 		System.out.println("\n");
-		System.out.println("Numer ID wybranego urzedu: " + this.selectedDepartmentId);
-		System.out.println("Wybrany typ kopii: " + this.selectedCopyType);
+		System.out.println(STR."Numer ID wybranego urzedu: \{this.selectedDepartmentId}");
+		System.out.println(STR."Wybrany typ kopii: \{this.selectedCopyType}");
 	}
 
 	@Override

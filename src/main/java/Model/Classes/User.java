@@ -2,7 +2,6 @@ package Model.Classes;
 
 import Model.Enums.AccessLevel;
 import Model.Interfaces.activeUser;
-import java.util.Objects;
 
 public class User extends Model implements activeUser {
 
@@ -12,15 +11,6 @@ public class User extends Model implements activeUser {
 	private String email;
 	private String password;
 	private String username;
-
-	public int getDepartmentID() {
-		return departmentID;
-	}
-
-	public void setDepartmentID(int departmentID) {
-		this.departmentID = departmentID;
-	}
-
 	private int departmentID;
 	private boolean isActive;
 
@@ -37,6 +27,10 @@ public class User extends Model implements activeUser {
 	}
 
 
+	public String getFirstName() {
+		return this.firstName;
+	}
+
 	public String getLastName() {
 		return this.lastName;
 	}
@@ -45,12 +39,12 @@ public class User extends Model implements activeUser {
 		return this.accessLevel;
 	}
 
-	public boolean isPrivileged() {
-        return this.accessLevel == AccessLevel.ADMIN;
-	}
-
 	public String getUsername() {
 		return this.username;
+	}
+
+	public String getEmail() {
+		return this.email;
 	}
 
 	public String getPassword() {
@@ -61,21 +55,48 @@ public class User extends Model implements activeUser {
 		return this.id;
 	}
 
+	public int getDepartmentID() {
+		return departmentID;
+	}
+
+	public void setDepartmentID(int departmentID) {
+		this.departmentID = departmentID;
+	}
+
+	public boolean isPrivileged() {
+		return this.accessLevel == AccessLevel.ADMIN;
+	}
+
 	@Override
 	public boolean isActive() {
 		return this.isActive;
 	}
-	@Override
-	public boolean login(String username, String password) {
-		if(Objects.equals(password, dbManager.getCorrectPassword(username))) {
 
-		}
-		return true;
+	public void login(String email, String password) {
+		User user = activeUser.login(email, password);
+
+		this.id = user.getId();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.accessLevel = user.getAccessLevel();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.username = user.getUsername();
+		this.departmentID = user.getDepartmentID();
+		this.isActive = true;
 	}
 
-	@Override
-	public boolean logout() {
+	public void logout() {
+		this.id = -1;
+		this.firstName = null;
+		this.lastName = null;
+		this.accessLevel = null;
+		this.email = null;
+		this.password = null;
+		this.username = null;
+		this.departmentID = -1;
 		this.isActive = false;
-		return true;
+
+		activeUser.logout();
 	}
 }

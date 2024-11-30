@@ -11,16 +11,9 @@ public class Application extends Model implements exposeApplications {
 	private final int departmentID;
 	private ApplicationStatus status;
 	private LocalDateTime considerationDate;
+
 	private final String description;
 	private String rejectedDescription;
-
-	public boolean isArchived() {
-		return isArchived;
-	}
-
-	public void setArchived(boolean archived) {
-		isArchived = archived;
-	}
 
 	private boolean isArchived;
 
@@ -42,6 +35,17 @@ public class Application extends Model implements exposeApplications {
 
 	public int getDepartmentID() {
 		return this.departmentID;
+	}
+	public String getDescription() {
+		return description;
+	}
+
+	public boolean isArchived() {
+		return isArchived;
+	}
+
+	public void setArchived(boolean archived) {
+		isArchived = archived;
 	}
 
 	@Override

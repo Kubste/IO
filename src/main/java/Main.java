@@ -1,8 +1,8 @@
 import Model.Classes.*;
 import Model.Enums.AccessLevel;
+import Model.Interfaces.activeUser;
 import Provider.Classes.ApplicationsProvider;
 import com.github.javafaker.Faker;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -29,8 +29,8 @@ public class Main {
                     faker.name().firstName(),
                     faker.name().lastName(),
                     accessLevels.get(random.nextInt(0,accessLevels.size())),
-                    "123@wp.pl",
-                    "password",
+                    STR."\{i}@wp.pl",
+                    STR."\{i}password",
                     faker.funnyName().toString(),
                     -1
             ));
@@ -48,7 +48,7 @@ public class Main {
             Collections.shuffle(mockedCitizens);
 
             mockedDepartments.add(new Department(
-            "Department" + i,
+                    STR."Department\{i}",
                 faker.address().fullAddress(),
                 mockedUsers.stream().filter(user -> user.getAccessLevel() == AccessLevel.ADMIN).findFirst().get().getID(),
                     new ArrayList<>(mockedOfficials.subList(0, random.nextInt(mockedOfficials.size()))),
@@ -78,10 +78,12 @@ public class Main {
 
         // TODO: change that to the activeUser.login
         User loggedUser = mockedOfficials.get(random.nextInt(mockedOfficials.size()));
+        loggedUser.login(loggedUser.getEmail(), loggedUser.getPassword());
 
         ApplicationsProvider applicationsProvider = new ApplicationsProvider(loggedUser);
         applicationsProvider.createView();
 
+        loggedUser.logout();
+        loggedUser = null;
     }
-
 }

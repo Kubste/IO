@@ -1,10 +1,8 @@
 package Provider.Classes;
 
-import Model.Classes.Model;
 import View.Classes.View;
 import View.Interfaces.IView;
 import Model.Classes.User;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.*;
 
@@ -38,11 +36,19 @@ public abstract class Provider {
 	 * @param message
 	 */
 	protected void sendMail(String receiver, String message) {
-		System.out.println("Wiadomosc: " + message + " zostala wyslana do: " + receiver);
+		System.out.println(STR."Wiadomosc: \{message} zostala wyslana do: \{receiver}");
 	}
 
-	public int getLoggerUserID() {
-		return loggedUser.getID();
+	public int getLoggedUserID() {
+		return this.loggedUser.getID();
+	}
+
+	public String getLoggedUserUsername() {
+		return this.loggedUser.getUsername();
+	}
+
+	public String getLoggedUserFullName() {
+		return STR."\{this.loggedUser.getFirstName()} \{this.loggedUser.getLastName()}";
 	}
 
 }
