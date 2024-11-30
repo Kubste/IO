@@ -2,6 +2,7 @@ package Model.Classes;
 
 import Model.Enums.AccessLevel;
 import Model.Interfaces.activeUser;
+import java.util.HashSet;
 
 public class User extends Model implements activeUser {
 
@@ -12,6 +13,7 @@ public class User extends Model implements activeUser {
 	private String password;
 	private String username;
 	private int departmentID;
+	private HashSet<Integer> assignedDepartmentsIDs;
 	private boolean isActive;
 
 	public User(String firstName, String lastName, AccessLevel accessLevel, String email, String password, String username, int departmentID) {
@@ -24,6 +26,7 @@ public class User extends Model implements activeUser {
 		this.username = username;
 		this.departmentID = departmentID;
 		this.isActive = false;
+		if(this.accessLevel == AccessLevel.ADMIN) assignedDepartmentsIDs = new HashSet<>();
 	}
 
 
@@ -65,6 +68,14 @@ public class User extends Model implements activeUser {
 
 	public boolean isPrivileged() {
 		return this.accessLevel == AccessLevel.ADMIN;
+	}
+
+	public void setAssignedDepartmentsIDs(HashSet<Integer> assignedDepartmentsIDs) {
+		this.assignedDepartmentsIDs = assignedDepartmentsIDs;
+	}
+
+	public HashSet<Integer> getAssignedDepartmentsIDs() {
+		return this.assignedDepartmentsIDs;
 	}
 
 	@Override

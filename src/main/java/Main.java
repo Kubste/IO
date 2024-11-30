@@ -1,10 +1,11 @@
 import Model.Classes.*;
 import Model.Enums.AccessLevel;
-import Model.Interfaces.activeUser;
 import Provider.Classes.ApplicationsProvider;
+import Provider.Classes.CopyProvider;
 import com.github.javafaker.Faker;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,14 @@ public class Main {
             ));
         }
 
+        HashSet<Integer> adminAssignedDepartments = new HashSet<>();
+        int numOfDepartments = random.nextInt(mockedDepartments.size() - 1) + 1;
+        for(int i = 0; i < numOfDepartments; i++) {
+            int index = random.nextInt(mockedDepartments.size());
+            adminAssignedDepartments.add(mockedDepartments.get(index).getId());
+        }
+        if(adminAssignedDepartments.isEmpty()) adminAssignedDepartments.add(mockedDepartments.getFirst().getId());
+
         for(User user: mockedUsers){
             user.setDepartmentID(
                     mockedDepartments.get(random.nextInt(mockedDepartments.size())).getId()
@@ -82,6 +91,14 @@ public class Main {
 
         ApplicationsProvider applicationsProvider = new ApplicationsProvider(loggedUser);
         applicationsProvider.createView();
+
+        loggedUser.logout();
+        loggedUser = null;
+
+        loggedUser = new User(faker.name().firstName(), faker.name().lastName(), AccessLevel.ADMIN, "admin@wp.pl", "adminpassword", "admin", -1);
+        loggedUser.setAssignedDepartmentsIDs(adminAssignedDepartments);
+        CopyProvider copyProvider = new CopyProvider(loggedUser);
+        copyProvider.createView();
 
         loggedUser.logout();
         loggedUser = null;

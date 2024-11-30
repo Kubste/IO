@@ -1,13 +1,11 @@
 package Provider.Classes;
 
 import Model.Classes.Application;
-import Model.Classes.Department;
 import Model.Classes.User;
 import Provider.Interfaces.listApplications;
 import Provider.Interfaces.manageApplications;
 import View.Classes.ApplicationsView;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,7 +15,7 @@ import Model.Interfaces.exposeApplications;
 public class ApplicationsProvider extends Provider implements manageApplications, listApplications {
 
 
-	private ArrayList<Application> assignedApplications;
+	private final ArrayList<Application> assignedApplications;
 
 	public ApplicationsProvider(User loggedUser) {
 		super(loggedUser);
@@ -25,6 +23,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 		this.supportedViews = new ArrayList<>(List.of(ApplicationsView.class));
 	}
 
+	@Override
 	public void createView() {
 		ApplicationsView applicationsView = new ApplicationsView(assignedApplications.stream().map(Application::getId).collect(Collectors.toCollection(ArrayList::new)), this);
 		this.checkView(applicationsView);
@@ -43,8 +42,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.filter(app -> app.getId() == applicationId)
 				.findFirst();
 
-		if(application.isPresent()) return application.get().getDescription();
-		else return null;
+        return application.map(Application::getDescription).orElse(null);
 
 	}
 
@@ -59,7 +57,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.filter(app -> app.getId() == id)
 				.findFirst();
 
-		if(application.isPresent()) application.get().acceptApplication(id);
+        application.ifPresent(value -> value.acceptApplication(id));
 	}
 
 	@Override
@@ -68,7 +66,19 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.filter(app -> app.getId() == id)
 				.findFirst();
 
-		if(application.isPresent()) application.get().rejectApplication(id, rejectDescription);
+        application.ifPresent(value -> value.rejectApplication(id, rejectDescription));
+	}
+
+	public int getApplicant(int applicationId) {
+		Optional<Application> application = this.assignedApplications.stream()
+				.filter(app -> app.getId() == applicationId)
+				.findFirst();
+
+        return application.map(Application::getUserID).orElse(-1);
+	}
+
+	public void sendMail(int receiver, String message) {
+		System.out.println(STR."Wiadomosc: \"\{message}\" zostala wyslana do uzytkownika o numerze ID: \{receiver}");
 	}
 
 	public boolean checkApplicationArchivedStatus(int id) {
@@ -76,7 +86,6 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.filter(app -> app.getId() == id)
 				.findFirst();
 
-		if(application.isPresent()) return !application.get().isArchived();
-		return false;
-	}
+        return application.filter(value -> !value.isArchived()).isPresent();
+    }
 }

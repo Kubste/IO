@@ -2,14 +2,13 @@ package Model.Classes;
 
 import Model.Enums.CopyType;
 import Model.Interfaces.manageCopies;
-import java.io.File;
 
-public class Copy extends Model {
+public class Copy extends Model implements manageCopies {
 
-	private long size;
-	private int departmentID;
-	private String path;
-	private CopyType type;
+	private final long size;
+	private final int departmentID;
+	private final String path;
+	private final CopyType type;
 
 	/**
 	 * 

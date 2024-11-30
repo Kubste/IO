@@ -35,6 +35,9 @@ public class Database {
 	public ArrayList<Copy> getAllCopies() {
 		return allCopies;
 	}
+	public void addCopy(Copy copy) {
+		this.allCopies.add(copy);
+	}
 
 	public void setAllCopies(ArrayList<Copy> allCopies) {
 		this.allCopies = allCopies;

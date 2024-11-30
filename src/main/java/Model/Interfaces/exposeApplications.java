@@ -49,7 +49,6 @@ public interface exposeApplications {
 	 */
 	static ArrayList<Application> getApplications(User user) {
 
-
 		switch (user.getAccessLevel()){
 			case CITIZEN -> {
 				return DBManager.getInstance()
@@ -66,7 +65,5 @@ public interface exposeApplications {
 				return new ArrayList<>();
 			}
 		}
-
 	}
-
 }

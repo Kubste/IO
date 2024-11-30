@@ -28,7 +28,6 @@ public class Department extends Model implements getDepartments {
 		this.citizens = citizens;
 	}
 
-	@Override
 	public ArrayList<Department> getAssignedDepartments(User user) {
 		return null;
 	}

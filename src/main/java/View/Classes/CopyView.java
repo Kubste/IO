@@ -8,20 +8,25 @@ import java.util.Scanner;
 
 public class CopyView extends View {
 
-	private int selectedDepartmentId;
+	private int selectedDepartmentId = -1;
 	private CopyType selectedCopyType;
-	private CopyProvider provider;
-	private ArrayList<Integer> assignedDepartmentIds;
+	private final CopyProvider provider;
+	private final ArrayList<Integer> assignedDepartmentIds;
 
-	public CopyView(Provider provider) {
+	public CopyView(ArrayList<Integer> assignedDepartmentIds, Provider provider) {
 		super(provider);
+		this.provider = (CopyProvider) provider;
+		this.assignedDepartmentIds = assignedDepartmentIds;
 	}
 
 	private void chooseDepartment() {
 		System.out.print("\nPodaj ID urzedu: ");
 		Scanner scanner = new Scanner(System.in);
-		this.selectedDepartmentId = scanner.nextInt();
-		System.out.println(STR."Wybrano urzad o ID: \{this.selectedDepartmentId}");
+		int ID = scanner.nextInt();
+		if(this.assignedDepartmentIds.contains(ID)) {
+			this.selectedDepartmentId = ID;
+			System.out.println(STR."Wybrano urzad o ID: \{this.selectedDepartmentId}");
+		} else System.out.println("Wybrano bledny numer ID");
 	}
 
 	private void chooseCopyType() {
@@ -35,9 +40,11 @@ public class CopyView extends View {
 	}
 
 	private void submit() {
-		System.out.println("\n");
-		System.out.println("Tworzenie kopii...");
-		this.provider.startCreateCopy(this.loggedUserID, this.selectedDepartmentId, this.selectedCopyType);
+		if(this.selectedDepartmentId != -1 && this.selectedCopyType != null) {
+			this.provider.startCreateCopy(this.loggedUserID, this.selectedDepartmentId, this.selectedCopyType);
+			System.out.println("\nTworzenie kopii...");
+		} else System.out.println("Nie wybrano poprawnych parametrow");
+
 	}
 
 	private void reset() {
@@ -47,22 +54,20 @@ public class CopyView extends View {
 
 	private void showSelectedParameters() {
 		System.out.println("\n");
-		System.out.println(STR."Numer ID wybranego urzedu: \{this.selectedDepartmentId}");
-		System.out.println(STR."Wybrany typ kopii: \{this.selectedCopyType}");
+		if(this.selectedDepartmentId == -1) System.out.println("Nie wybrano urzedu");
+		else System.out.println(STR."Numer ID wybranego urzedu: \{this.selectedDepartmentId}");
+		if(this.selectedCopyType == null) System.out.println("Nie wybrano typu kopii");
+		else System.out.println(STR."Wybrany typ kopii: \{this.selectedCopyType}");
 	}
 
-	@Override
-	public void render() {
+	private void showAssignedDepartmentsIDs() {
+		System.out.println(STR."Numery ID urzedow przypisanych do uzytkownika: \{this.provider.getLoggedUserFullName()}");
+		int i = 0;
+		for(int id : assignedDepartmentIds) System.out.println(STR."\{++i}. ID urzedu: \{id}");
+	}
 
-		System.out.println("\n\n");
-		System.out.println("Widok kopii zapasowej\n");
-		System.out.println("Dostepne opcje:");
-		System.out.println("1. Wyswietl wybrane opcje");
-		System.out.println("2. Wybierz urzad");
-		System.out.println("3. Wybierz typ kopii");
-		System.out.println("4. Wykonaj kopie zapasowa");
-		System.out.println("5. Reset wybranych opcji");
-		System.out.print("Wybierz opcje: ");
+	private boolean chooseAction() {
+		System.out.print("\nWybierz opcje: ");
 
 		Scanner scanner = new Scanner(System.in);
 		int choice = scanner.nextInt();
@@ -72,6 +77,30 @@ public class CopyView extends View {
 			case 2 -> this.chooseDepartment();
 			case 3 -> this.chooseCopyType();
 			case 4 -> this.submit();
+			case 5 -> this.showAssignedDepartmentsIDs();
+			case 6 -> this.reset();
+			case 7 -> {
+				return true;
+			}default -> System.out.println("Bledna opcja");
+		}
+		return false;
+	}
+
+	@Override
+	public void render() {
+
+		boolean exit = false;
+		while(!exit) {
+			System.out.println("\n\nWidok kopii zapasowej\n");
+			System.out.println("Dostepne opcje:");
+			System.out.println("1. Wyswietl wybrane parametry");
+			System.out.println("2. Wybierz urzad");
+			System.out.println("3. Wybierz typ kopii");
+			System.out.println("4. Wykonaj kopie zapasowa");
+			System.out.println("5. Wyswietl przypisane numery ID urzedow");
+			System.out.println("6. Reset wybranych parametrow");
+			System.out.println("7. Wyjdz");
+			exit = chooseAction();
 		}
 	}
 

@@ -35,6 +35,7 @@ public class ApplicationsView extends View {
 			case 3 -> {
 				provider.acceptApplication(selectedApplicationId);
 				System.out.println("Wniosek zostal zaakceptowany");
+				this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek zaakceptowany");
 				this.reset();
 			}
             case 4 -> {
@@ -43,6 +44,7 @@ public class ApplicationsView extends View {
 				String rejectDescription = scanner.nextLine();
                 provider.rejectApplication(selectedApplicationId, rejectDescription);
 				System.out.println("Wniosek zostal odrzucony");
+				this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), STR."Wniosek odrzucony, uzasadnienie odrzucenia: \{rejectDescription}");
 				this.reset();
             } case 5 -> this.showAssignedApplicationsIds();
 			case 6 -> {
@@ -85,7 +87,7 @@ public class ApplicationsView extends View {
 			System.out.println("2. Wyswietl zawartosc wniosku");
 			System.out.println("3. Zaakceptuj wniosek");
 			System.out.println("4. Odrzuc wniosek");
-			System.out.println("5. Wyswietl dostpene wnioski");
+			System.out.println("5. Wyswietl dostepne wnioski");
 			System.out.println("6. Wyswietl numer ID wybranego wniosku");
 			System.out.println("7. Wyjdz");
 			exit = this.chooseAction();

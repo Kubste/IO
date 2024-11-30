@@ -3,7 +3,6 @@ package Provider.Classes;
 import View.Classes.View;
 import View.Interfaces.IView;
 import Model.Classes.User;
-
 import java.util.*;
 
 public abstract class Provider {
@@ -26,17 +25,8 @@ public abstract class Provider {
 	}
 
 
-	protected void createView() {
+	public void createView() {
 		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param receiver
-	 * @param message
-	 */
-	protected void sendMail(String receiver, String message) {
-		System.out.println(STR."Wiadomosc: \{message} zostala wyslana do: \{receiver}");
 	}
 
 	public int getLoggedUserID() {

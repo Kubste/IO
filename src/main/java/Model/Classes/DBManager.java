@@ -1,12 +1,11 @@
 package Model.Classes;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class DBManager {
 
-	Model dbManager;
+	private Model dbManager;
 	private static DBManager instance = null;
 	private String db_host;
 	private String db_name;

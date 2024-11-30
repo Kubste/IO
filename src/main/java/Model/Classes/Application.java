@@ -3,7 +3,6 @@ package Model.Classes;
 import Model.Enums.ApplicationStatus;
 import Model.Interfaces.exposeApplications;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Application extends Model implements exposeApplications {
 
@@ -11,10 +10,8 @@ public class Application extends Model implements exposeApplications {
 	private final int departmentID;
 	private ApplicationStatus status;
 	private LocalDateTime considerationDate;
-
 	private final String description;
 	private String rejectedDescription;
-
 	private boolean isArchived;
 
 	public Application(int userID, int departmentID, String description) {
