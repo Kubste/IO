@@ -25,7 +25,7 @@ public class CopyView extends View {
 		int ID = scanner.nextInt();
 		if(this.assignedDepartmentIds.contains(ID)) {
 			this.selectedDepartmentId = ID;
-			System.out.println(STR."Wybrano urzad o ID: \{this.selectedDepartmentId}");
+			System.out.println("Wybrano urzad o ID: "+this.selectedDepartmentId);
 		} else System.out.println("Wybrano bledny numer ID");
 	}
 
@@ -36,7 +36,7 @@ public class CopyView extends View {
 		int copyType = scanner.nextInt();
 		if(copyType == 1) this.selectedCopyType = CopyType.FULL;
 		else if(copyType == 2) this.selectedCopyType = CopyType.INCREMENTAL;
-		System.out.println(STR."Wybrano typ kopii: \{selectedCopyType}");
+		System.out.println("Wybrano typ kopii: "+selectedCopyType);
 	}
 
 	private void submit() {
@@ -55,15 +55,15 @@ public class CopyView extends View {
 	private void showSelectedParameters() {
 		System.out.println("\n");
 		if(this.selectedDepartmentId == -1) System.out.println("Nie wybrano urzedu");
-		else System.out.println(STR."Numer ID wybranego urzedu: \{this.selectedDepartmentId}");
+		else System.out.println("Numer ID wybranego urzedu: "+this.selectedDepartmentId);
 		if(this.selectedCopyType == null) System.out.println("Nie wybrano typu kopii");
-		else System.out.println(STR."Wybrany typ kopii: \{this.selectedCopyType}");
+		else System.out.println("Wybrany typ kopii: "+this.selectedCopyType);
 	}
 
 	private void showAssignedDepartmentsIDs() {
-		System.out.println(STR."Numery ID urzedow przypisanych do uzytkownika: \{this.provider.getLoggedUserFullName()}");
+		System.out.println("Numery ID urzedow przypisanych do uzytkownika: "+this.provider.getLoggedUserFullName());
 		int i = 0;
-		for(int id : assignedDepartmentIds) System.out.println(STR."\{++i}. ID urzedu: \{id}");
+		for(int id : assignedDepartmentIds) System.out.println(++i + "ID urzedu: "+id);
 	}
 
 	private boolean chooseAction() {

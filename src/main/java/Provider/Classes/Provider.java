@@ -38,7 +38,7 @@ public abstract class Provider {
 	}
 
 	public String getLoggedUserFullName() {
-		return STR."\{this.loggedUser.getFirstName()} \{this.loggedUser.getLastName()}";
+		return this.loggedUser.getFirstName() + this.loggedUser.getLastName();
 	}
 
 }

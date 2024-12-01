@@ -39,7 +39,7 @@ public class CopyProvider extends Provider implements makeCopy, listDepartments 
 
 	@Override
 	public void startCreateCopy(int userID, int selectedDepartmentId, CopyType selectedCopyType) {
-		File file = new File(STR."\{UUID.randomUUID()}.txt");
+		File file = new File(UUID.randomUUID().toString() + ".txt");
 		manageCopies.addCopy(file, selectedCopyType, selectedDepartmentId);
 	}
 }

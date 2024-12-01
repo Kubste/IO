@@ -78,7 +78,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 	}
 
 	public void sendMail(int receiver, String message) {
-		System.out.println(STR."Wiadomosc: \"\{message}\" zostala wyslana do uzytkownika o numerze ID: \{receiver}");
+		System.out.println("Wiadomosc: " + message + " zostala wyslana do uzytkownika o numerze ID:" + receiver);
 	}
 
 	public boolean checkApplicationArchivedStatus(int id) {

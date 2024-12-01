@@ -21,7 +21,7 @@ public class ApplicationsView extends View {
 		System.out.print("Podaj ID wniosku: ");
 		Scanner scanner = new Scanner(System.in);
 		this.selectedApplicationId = scanner.nextInt();
-		System.out.println(STR."Wybrano wniosek o ID: \{this.selectedApplicationId}");
+		System.out.println("Wybrano wniosek o ID:" + this.selectedApplicationId);
 	}
 
 	private boolean chooseAction() {
@@ -44,11 +44,11 @@ public class ApplicationsView extends View {
 				String rejectDescription = scanner.nextLine();
                 provider.rejectApplication(selectedApplicationId, rejectDescription);
 				System.out.println("Wniosek zostal odrzucony");
-				this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), STR."Wniosek odrzucony, uzasadnienie odrzucenia: \{rejectDescription}");
+				this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek odrzucony, uzasadnienie odrzucenia: " + rejectDescription);
 				this.reset();
             } case 5 -> this.showAssignedApplicationsIds();
 			case 6 -> {
-				if(this.selectedApplicationId != -1) System.out.println(STR."Numer ID wybranego wniosku: \{this.selectedApplicationId}");
+				if(this.selectedApplicationId != -1) System.out.println("Numer ID wybranego wniosku: " + this.selectedApplicationId);
 				else System.out.println("Nie wybrano wniosku");
 			}
             case 7 -> {
@@ -63,23 +63,23 @@ public class ApplicationsView extends View {
 	}
 
 	private void showAssignedApplicationsIds() {
-		System.out.println(STR."\nNumery ID wnoskow przypisanych do uzytkownika: \{this.provider.getLoggedUserFullName()}");
+		System.out.println("\nNumery ID wnoskow przypisanych do uzytkownika: " + this.provider.getLoggedUserFullName());
 		int i = 0;
 		for(int id : this.assignedApplicationIds) {
-			if(this.provider.checkApplicationArchivedStatus(id)) System.out.println(STR."\{++i}. ID wniosku: \{id}");
+			if(this.provider.checkApplicationArchivedStatus(id)) System.out.println(++i + " ID wniosku: "+id);
 		}
 	}
 
 	private void showApplication() {
 		if(selectedApplicationId == -1) this.chooseApplication();
-		System.out.println(STR."Tresc wniosku o numerze ID: \{selectedApplicationId}");
+		System.out.println("Tresc wniosku o numerze ID: "+selectedApplicationId);
 		System.out.println(provider.getApplicationDetails(selectedApplicationId));
 	}
 
 	@Override
 	public void render() {
 		boolean exit = false;
-		System.out.println(STR."\nZalogowany uzytkownik: \{this.provider.getLoggedUserFullName()}");
+		System.out.println("\nZalogowany uzytkownik: "+this.provider.getLoggedUserFullName());
 		while(!exit) {
 			System.out.println("\n\nWidok wnioskow\n");
 			System.out.println("Wybierz dzialanie: ");

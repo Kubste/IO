@@ -30,8 +30,8 @@ public class Main {
                     faker.name().firstName(),
                     faker.name().lastName(),
                     accessLevels.get(random.nextInt(0,accessLevels.size())),
-                    STR."\{i}@wp.pl",
-                    STR."\{i}password",
+                    "test@wp.pl",
+                    "password",
                     faker.funnyName().toString(),
                     -1
             ));
@@ -49,7 +49,7 @@ public class Main {
             Collections.shuffle(mockedCitizens);
 
             mockedDepartments.add(new Department(
-                    STR."Department\{i}",
+                    "Department"+i,
                 faker.address().fullAddress(),
                 mockedUsers.stream().filter(user -> user.getAccessLevel() == AccessLevel.ADMIN).findFirst().get().getID(),
                     new ArrayList<>(mockedOfficials.subList(0, random.nextInt(mockedOfficials.size()))),
@@ -63,7 +63,7 @@ public class Main {
             int index = random.nextInt(mockedDepartments.size());
             adminAssignedDepartments.add(mockedDepartments.get(index).getId());
         }
-        if(adminAssignedDepartments.isEmpty()) adminAssignedDepartments.add(mockedDepartments.getFirst().getId());
+        if(adminAssignedDepartments.isEmpty()) adminAssignedDepartments.add(mockedDepartments.get(0).getId());
 
         for(User user: mockedUsers){
             user.setDepartmentID(
