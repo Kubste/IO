@@ -27,8 +27,4 @@ public class Department extends Model implements getDepartments {
 		this.officials = officials;
 		this.citizens = citizens;
 	}
-
-	public ArrayList<Department> getAssignedDepartments(User user) {
-		return null;
-	}
 }

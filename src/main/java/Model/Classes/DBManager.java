@@ -1,38 +1,24 @@
 package Model.Classes;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class DBManager {
 
-	private Model dbManager;
 	private static DBManager instance = null;
 	private String db_host;
 	private String db_name;
 	private String db_user;
 	private String db_password;
-
-    public Database getDatabase() {
-        return database;
-    }
-
-    public void setDatabase(Database database) {
-        this.database = database;
-    }
-
     private Database database;
 
 	private DBManager() {
 	}
 
     private DBManager(Database db) {
-
         this.database = db;
     }
 
 	public static DBManager getInstance() {
-
-
 		if(DBManager.instance == null){
             DBManager.instance = new DBManager();
         }
@@ -40,18 +26,26 @@ public class DBManager {
 		return DBManager.instance;
 	}
 
-    public static DBManager getInstance(ArrayList<User> users, ArrayList<Department> departments, ArrayList<Application> applications) {
+//    public static DBManager getInstance(ArrayList<User> users, ArrayList<Department> departments, ArrayList<Application> applications) {
+//
+//        Database db = new Database();
+//        db.setAllApplications(applications);
+//        db.setAllDepartments(departments);
+//        db.setAllUsers(users);
+//
+//        if(DBManager.instance == null){
+//            DBManager.instance = new DBManager(db);
+//        }
+//
+//        return DBManager.instance;
+//    }
 
-        Database db = new Database();
-        db.setAllApplications(applications);
-        db.setAllDepartments(departments);
-        db.setAllUsers(users);
+    public Database getDatabase() {
+        return database;
+    }
 
-        if(DBManager.instance == null){
-            DBManager.instance = new DBManager(db);
-        }
-
-        return DBManager.instance;
+    public void setDatabase(Database database) {
+        this.database = database;
     }
 
 	/**
@@ -145,12 +139,4 @@ public class DBManager {
         }
         return true;
 	}
-
-	public String getCorrectPassword(String username) {
-		for(User user : database.getAllUsers()) {
-			if(Objects.equals(user.getUsername(), username)) return user.getPassword();
-		}
-		return null;
-	}
-
 }

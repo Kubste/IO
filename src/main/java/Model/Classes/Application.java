@@ -29,20 +29,14 @@ public class Application extends Model implements exposeApplications {
 		return this.userID;
 	}
 
-
 	public int getDepartmentID() {
 		return this.departmentID;
 	}
 	public String getDescription() {
 		return description;
 	}
-
 	public boolean isArchived() {
 		return isArchived;
-	}
-
-	public void setArchived(boolean archived) {
-		isArchived = archived;
 	}
 
 	@Override

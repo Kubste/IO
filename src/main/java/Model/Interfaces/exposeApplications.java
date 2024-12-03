@@ -4,7 +4,6 @@ import Model.Classes.Application;
 import Model.Classes.DBManager;
 import Model.Enums.ApplicationStatus;
 import Model.Classes.User;
-
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 

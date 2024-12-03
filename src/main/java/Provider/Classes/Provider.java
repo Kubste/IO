@@ -33,12 +33,8 @@ public abstract class Provider {
 		return this.loggedUser.getID();
 	}
 
-	public String getLoggedUserUsername() {
-		return this.loggedUser.getUsername();
-	}
-
 	public String getLoggedUserFullName() {
-		return this.loggedUser.getFirstName() + this.loggedUser.getLastName();
+		return this.loggedUser.getFirstName() + " " + this.loggedUser.getLastName();
 	}
 
 }
