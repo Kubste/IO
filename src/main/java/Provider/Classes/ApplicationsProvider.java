@@ -24,10 +24,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 
 	@Override
 	public void createView() {
-		ApplicationsView applicationsView = new ApplicationsView(assignedApplications.stream().map(Application::getId).collect(Collectors.toCollection(ArrayList::new)), this);
-		this.checkView(applicationsView);
-		applicationsView.render();
-
+		this.viewBuilder.createView(ApplicationsView.class, assignedApplications.stream().map(Application::getId), this);
 	}
 
 	@Override

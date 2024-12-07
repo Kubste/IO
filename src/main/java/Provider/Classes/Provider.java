@@ -9,9 +9,11 @@ public abstract class Provider {
 
 	protected ArrayList<Class<? extends View>> supportedViews = new ArrayList<>();
 	protected User loggedUser;
+	protected ViewBuilder viewBuilder;
 
 	public Provider(User loggedUser){
 		this.loggedUser = loggedUser;
+		this.viewBuilder = new ViewBuilder();
 	}
 
 	/**
@@ -36,5 +38,4 @@ public abstract class Provider {
 	public String getLoggedUserFullName() {
 		return this.loggedUser.getFirstName() + " " + this.loggedUser.getLastName();
 	}
-
 }
