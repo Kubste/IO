@@ -26,19 +26,19 @@ public class DBManager {
 		return DBManager.instance;
 	}
 
-//    public static DBManager getInstance(ArrayList<User> users, ArrayList<Department> departments, ArrayList<Application> applications) {
-//
-//        Database db = new Database();
-//        db.setAllApplications(applications);
-//        db.setAllDepartments(departments);
-//        db.setAllUsers(users);
-//
-//        if(DBManager.instance == null){
-//            DBManager.instance = new DBManager(db);
-//        }
-//
-//        return DBManager.instance;
-//    }
+    public static DBManager getInstance(ArrayList<User> users, ArrayList<Department> departments, ArrayList<Application> applications) {
+
+        Database db = new Database();
+        db.setAllApplications(applications);
+        db.setAllDepartments(departments);
+        db.setAllUsers(users);
+
+        if(DBManager.instance == null){
+            DBManager.instance = new DBManager(db);
+        }
+
+        return DBManager.instance;
+    }
 
     public Database getDatabase() {
         return database;

@@ -63,15 +63,10 @@ public class CopyView extends View {
 	private void showAssignedDepartmentsIDs() {
 		System.out.println("Numery ID urzedow przypisanych do uzytkownika: "+this.provider.getLoggedUserFullName());
 		int i = 0;
-		for(int id : assignedDepartmentIds) System.out.println(++i + "ID urzedu: "+id);
+		for(int id : assignedDepartmentIds) System.out.println(++i + ". ID urzedu: "+id);
 	}
 
-	private boolean chooseAction() {
-		System.out.print("\nWybierz opcje: ");
-
-		Scanner scanner = new Scanner(System.in);
-		int choice = scanner.nextInt();
-
+	private void callOperation(int choice) {
 		switch(choice) {
 			case 1 -> this.showSelectedParameters();
 			case 2 -> this.chooseDepartment();
@@ -79,18 +74,21 @@ public class CopyView extends View {
 			case 4 -> this.submit();
 			case 5 -> this.showAssignedDepartmentsIDs();
 			case 6 -> this.reset();
-			case 7 -> {
-				return true;
-			}default -> System.out.println("Bledna opcja");
+			default -> System.out.println("Bledna opcja");
 		}
-		return false;
+	}
+
+	private int chooseAction() {
+		System.out.print("\nWybierz opcje: ");
+
+		Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
 	}
 
 	@Override
 	public void render() {
-
-		boolean exit = false;
-		while(!exit) {
+		System.out.println("\nZalogowany uzytkownik: "+this.provider.getLoggedUserFullName());
+		while(true) {
 			System.out.println("\n\nWidok kopii zapasowej\n");
 			System.out.println("Dostepne opcje:");
 			System.out.println("1. Wyswietl wybrane parametry");
@@ -100,8 +98,9 @@ public class CopyView extends View {
 			System.out.println("5. Wyswietl przypisane numery ID urzedow");
 			System.out.println("6. Reset wybranych parametrow");
 			System.out.println("7. Wyjdz");
-			exit = chooseAction();
+			int choice = chooseAction();
+			if(choice == 7) break;
+			callOperation(choice);
 		}
 	}
-
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import Model.Interfaces.exposeApplications;
 
 public class ApplicationsProvider extends Provider implements manageApplications, listApplications {
@@ -78,7 +77,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 	}
 
 	public void sendMail(int receiver, String message) {
-		System.out.println("Wiadomosc: " + message + " zostala wyslana do uzytkownika o numerze ID:" + receiver);
+		System.out.println("Wiadomosc: \"" + message + "\" zostala wyslana do uzytkownika o numerze ID: " + receiver);
 	}
 
 	public boolean checkApplicationArchivedStatus(int id) {

@@ -21,41 +21,44 @@ public class ApplicationsView extends View {
 		System.out.print("Podaj ID wniosku: ");
 		Scanner scanner = new Scanner(System.in);
 		this.selectedApplicationId = scanner.nextInt();
-		System.out.println("Wybrano wniosek o ID:" + this.selectedApplicationId);
+		System.out.println("Wybrano wniosek o ID: " + this.selectedApplicationId);
 	}
 
-	private boolean chooseAction() {
+	private void acceptApplication() {
+		provider.acceptApplication(selectedApplicationId);
+		System.out.println("Wniosek zostal zaakceptowany");
+		this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek zaakceptowany");
+		this.reset();
+	}
 
-		System.out.print("\nWybierz opcje: ");
+	private void rejectApplication() {
 		Scanner scanner = new Scanner(System.in);
-		int choice = scanner.nextInt();
+		System.out.print("Podaj tresc odmowy: ");
+		//scanner.nextLine();
+		String rejectDescription = scanner.nextLine();
+		provider.rejectApplication(selectedApplicationId, rejectDescription);
+		System.out.println("Wniosek zostal odrzucony");
+		this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek odrzucony, uzasadnienie odrzucenia: " + rejectDescription);
+		this.reset();
+	}
+
+	private void callOperation(int choice) {
 		switch(choice) {
 			case 1 -> chooseApplication();
 			case 2 -> showApplication();
-			case 3 -> {
-				provider.acceptApplication(selectedApplicationId);
-				System.out.println("Wniosek zostal zaakceptowany");
-				this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek zaakceptowany");
-				this.reset();
-			}
-            case 4 -> {
-                System.out.print("Podaj tresc odmowy: ");
-				scanner.nextLine();
-				String rejectDescription = scanner.nextLine();
-                provider.rejectApplication(selectedApplicationId, rejectDescription);
-				System.out.println("Wniosek zostal odrzucony");
-				this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek odrzucony, uzasadnienie odrzucenia: " + rejectDescription);
-				this.reset();
-            } case 5 -> this.showAssignedApplicationsIds();
-			case 6 -> {
-				if(this.selectedApplicationId != -1) System.out.println("Numer ID wybranego wniosku: " + this.selectedApplicationId);
-				else System.out.println("Nie wybrano wniosku");
-			}
-            case 7 -> {
-                return true;
-            }default -> System.out.println("Bledna opcja");
-        }
-		return false;
+			case 3 -> acceptApplication();
+			case 4 -> rejectApplication();
+			case 5 -> showAssignedApplicationsIds();
+			case 6 -> showApplicationID();
+			default -> System.out.println("Bledna opcja");
+		}
+	}
+
+	private int chooseAction() {
+
+		System.out.print("\nWybierz opcje: ");
+		Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
 	}
 
 	private void reset() {
@@ -76,11 +79,15 @@ public class ApplicationsView extends View {
 		System.out.println(provider.getApplicationDetails(selectedApplicationId));
 	}
 
+	private void showApplicationID() {
+		if(this.selectedApplicationId != -1) System.out.println("Numer ID wybranego wniosku: " + this.selectedApplicationId);
+		else System.out.println("Nie wybrano wniosku");
+	}
+
 	@Override
 	public void render() {
-		boolean exit = false;
 		System.out.println("\nZalogowany uzytkownik: "+this.provider.getLoggedUserFullName());
-		while(!exit) {
+		while(true) {
 			System.out.println("\n\nWidok wnioskow\n");
 			System.out.println("Wybierz dzialanie: ");
 			System.out.println("1. Wybierz wniosek");
@@ -90,7 +97,9 @@ public class ApplicationsView extends View {
 			System.out.println("5. Wyswietl dostepne wnioski");
 			System.out.println("6. Wyswietl numer ID wybranego wniosku");
 			System.out.println("7. Wyjdz");
-			exit = this.chooseAction();
+			int userChoice = chooseAction();
+			if(userChoice == 7) break;
+			else callOperation(userChoice);
 		}
 	}
 

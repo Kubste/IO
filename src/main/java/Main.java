@@ -30,8 +30,8 @@ public class Main {
                     faker.name().firstName(),
                     faker.name().lastName(),
                     accessLevels.get(random.nextInt(0,accessLevels.size())),
-                    "test@wp.pl",
-                    "password",
+                    i + "test@wp.pl",
+                    i + "password",
                     faker.funnyName().toString(),
                     -1
             ));
@@ -42,6 +42,9 @@ public class Main {
 
         ArrayList<User> mockedCitizens = mockedUsers.stream()
                 .filter(user -> user.getAccessLevel() == AccessLevel.CITIZEN).distinct().collect(Collectors.toCollection(ArrayList::new));
+
+        ArrayList<User> mockedAdmins = mockedUsers.stream()
+                .filter(user -> user.getAccessLevel() == AccessLevel.ADMIN).distinct().collect(Collectors.toCollection(ArrayList::new));
 
         for(int i = 1; i < 11; i++){
             Collections.shuffle(mockedUsers);
@@ -58,12 +61,16 @@ public class Main {
         }
 
         HashSet<Integer> adminAssignedDepartments = new HashSet<>();
-        int numOfDepartments = random.nextInt(mockedDepartments.size() - 1) + 1;
-        for(int i = 0; i < numOfDepartments; i++) {
-            int index = random.nextInt(mockedDepartments.size());
-            adminAssignedDepartments.add(mockedDepartments.get(index).getId());
+        for(User admin : mockedAdmins) {
+            int numOfDepartments = random.nextInt(mockedDepartments.size() - 1) + 1;
+            for(int i = 0; i < numOfDepartments; i++) {
+                int index = random.nextInt(mockedDepartments.size());
+                adminAssignedDepartments.add(mockedDepartments.get(index).getId());
+            }
+            if(adminAssignedDepartments.isEmpty()) adminAssignedDepartments.add(mockedDepartments.get(0).getId());
+            admin.setAssignedDepartmentsIDs(new HashSet<>(adminAssignedDepartments));
+            adminAssignedDepartments.clear();
         }
-        if(adminAssignedDepartments.isEmpty()) adminAssignedDepartments.add(mockedDepartments.get(0).getId());
 
         for(User user: mockedUsers){
             user.setDepartmentID(
@@ -85,18 +92,21 @@ public class Main {
         database.setAllApplications(mockedApplications);
         DBManager.getInstance().setDatabase(database);
 
-        // TODO: change that to the activeUser.login
-        User loggedUser = mockedOfficials.get(random.nextInt(mockedOfficials.size()));
-        loggedUser.login(loggedUser.getEmail(), loggedUser.getPassword());
+        User loggedUser = new User();
+        User userToLogIn = mockedOfficials.get(random.nextInt(mockedOfficials.size()));
+        loggedUser.login(userToLogIn.getEmail(), userToLogIn.getPassword());
+        //User loggedUser = mockedOfficials.get(random.nextInt(mockedOfficials.size()));
+        //loggedUser.login(loggedUser.getEmail(), loggedUser.getPassword());
 
         ApplicationsProvider applicationsProvider = new ApplicationsProvider(loggedUser);
         applicationsProvider.createView();
 
         loggedUser.logout();
-        loggedUser = null;
 
-        loggedUser = new User(faker.name().firstName(), faker.name().lastName(), AccessLevel.ADMIN, "admin@wp.pl", "adminpassword", "admin", -1);
-        loggedUser.setAssignedDepartmentsIDs(adminAssignedDepartments);
+        //loggedUser = new User(faker.name().firstName(), faker.name().lastName(), AccessLevel.ADMIN, "admin@wp.pl", "adminpassword", "admin", -1);
+        userToLogIn = mockedAdmins.get(random.nextInt(mockedOfficials.size()));
+        loggedUser.login(userToLogIn.getEmail(), userToLogIn.getPassword());
+        //loggedUser.setAssignedDepartmentsIDs(adminAssignedDepartments);
         CopyProvider copyProvider = new CopyProvider(loggedUser);
         copyProvider.createView();
 

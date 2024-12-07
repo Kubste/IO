@@ -28,7 +28,6 @@ public class Application extends Model implements exposeApplications {
 	public int getUserID() {
 		return this.userID;
 	}
-
 	public int getDepartmentID() {
 		return this.departmentID;
 	}

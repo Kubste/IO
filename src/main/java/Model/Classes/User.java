@@ -29,6 +29,8 @@ public class User extends Model implements activeUser {
 		if(this.accessLevel == AccessLevel.ADMIN) assignedDepartmentsIDs = new HashSet<>();
 	}
 
+	public User(){}
+
 
 	public String getFirstName() {
 		return this.firstName;
@@ -94,6 +96,7 @@ public class User extends Model implements activeUser {
 		this.password = user.getPassword();
 		this.username = user.getUsername();
 		this.departmentID = user.getDepartmentID();
+		this.assignedDepartmentsIDs = user.getAssignedDepartmentsIDs();
 		this.isActive = true;
 	}
 
