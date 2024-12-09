@@ -27,7 +27,7 @@ public class CopyProvider extends Provider implements makeCopy, listDepartments 
 
 	@Override
 	public void createView() {
-		this.viewBuilder.createView(CopyView.class, assignedDepartments.stream().map(Department::getId), this);
+		ViewBuilder.createView(CopyView.class, assignedDepartments.stream().map(Department::getId), this);
 	}
 
 	@Override

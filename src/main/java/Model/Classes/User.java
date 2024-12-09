@@ -29,9 +29,6 @@ public class User extends Model implements activeUser {
 		if(this.accessLevel == AccessLevel.ADMIN) assignedDepartmentsIDs = new HashSet<>();
 	}
 
-	public User(){}
-
-
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -83,34 +80,5 @@ public class User extends Model implements activeUser {
 	@Override
 	public boolean isActive() {
 		return this.isActive;
-	}
-
-	public void login(String email, String password) {
-		User user = activeUser.login(email, password);
-
-		this.id = user.getId();
-		this.firstName = user.getFirstName();
-		this.lastName = user.getLastName();
-		this.accessLevel = user.getAccessLevel();
-		this.email = user.getEmail();
-		this.password = user.getPassword();
-		this.username = user.getUsername();
-		this.departmentID = user.getDepartmentID();
-		this.assignedDepartmentsIDs = user.getAssignedDepartmentsIDs();
-		this.isActive = true;
-	}
-
-	public void logout() {
-		this.id = -1;
-		this.firstName = null;
-		this.lastName = null;
-		this.accessLevel = null;
-		this.email = null;
-		this.password = null;
-		this.username = null;
-		this.departmentID = -1;
-		this.isActive = false;
-
-		activeUser.logout();
 	}
 }

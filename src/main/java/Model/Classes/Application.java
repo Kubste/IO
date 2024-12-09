@@ -38,31 +38,11 @@ public class Application extends Model implements exposeApplications {
 		return isArchived;
 	}
 
-	@Override
-	public ApplicationStatus getApplicationStatus(int applicationID) {
-		return this.status;
-	}
-
-	@Override
-	public void acceptApplication(int applicationID) {
-		this.status = ApplicationStatus.ACCEPTED;
-		this.isArchived = true;
-		dbManager.update(this);
-		this.considerationDate = LocalDateTime.now();
-	}
 
 	@Override
 	public boolean delete(){
 		this.isArchived = true;
 		return super.delete();
-	}
-	@Override
-	public void rejectApplication(int applicationID, String rejectedDescription) {
-		this.status = ApplicationStatus.REJECTED;
-		this.rejectedDescription = rejectedDescription;
-		this.isArchived = true;
-		dbManager.update(this);
-		this.considerationDate = LocalDateTime.now();
 	}
 
 }

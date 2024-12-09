@@ -13,7 +13,6 @@ public abstract class Provider {
 
 	public Provider(User loggedUser){
 		this.loggedUser = loggedUser;
-		this.viewBuilder = new ViewBuilder();
 	}
 
 	/**

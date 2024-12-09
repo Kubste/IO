@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ViewBuilder {
+public interface ViewBuilder {
 
-    public void createView(Class<? extends View> viewClass, Stream<Integer> stream, Provider provider) {
+    static void createView(Class<? extends View> viewClass, Stream<Integer> stream, Provider provider) {
         View view = null;
         ArrayList<Integer> IDs = stream.collect(Collectors.toCollection(ArrayList::new));
 

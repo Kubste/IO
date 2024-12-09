@@ -25,15 +25,5 @@ public class Copy extends Model implements manageCopies {
 		this.type = type;
 	}
 
-//	/**
-//	 *
-//	 * @param file
-//	 * @param type
-//	 * @param departmentID
-//	 */
-//	public Copy(int id, File file, CopyType type, int departmentID) {
-//		super(id);
-//		this.
-//	}
 
 }

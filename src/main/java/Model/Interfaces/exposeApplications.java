@@ -29,19 +29,25 @@ public interface exposeApplications {
 	 * 
 	 * @param applicationID
 	 */
-	ApplicationStatus getApplicationStatus(int applicationID);
+	static ApplicationStatus getApplicationStatus(int applicationID){
+		return ApplicationStatus.ACCEPTED;
+	}
 
 	/**
 	 * 
 	 * @param applicationID
 	 */
-	void acceptApplication(int applicationID);
+	static void acceptApplication(int applicationID){
+
+	}
 
 	/**
 	 * 
 	 * @param applicationID
 	 */
-	void rejectApplication(int applicationID, String rejectedDescription);
+	static void rejectApplication(int applicationID, String rejectedDescription){
+
+	}
 
 	/**
 	 * @param user

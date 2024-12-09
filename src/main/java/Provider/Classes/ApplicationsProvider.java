@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import Model.Interfaces.exposeApplications;
+import View.Classes.View;
 
 public class ApplicationsProvider extends Provider implements manageApplications, listApplications {
 
@@ -24,7 +25,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 
 	@Override
 	public void createView() {
-		this.viewBuilder.createView(ApplicationsView.class, assignedApplications.stream().map(Application::getId), this);
+		ViewBuilder.createView(ApplicationsView.class, assignedApplications.stream().map(Application::getId), this);
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.filter(app -> app.getId() == id)
 				.findFirst();
 
-        application.ifPresent(value -> value.acceptApplication(id));
+		exposeApplications.acceptApplication(id);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.filter(app -> app.getId() == id)
 				.findFirst();
 
-        application.ifPresent(value -> value.rejectApplication(id, rejectDescription));
+		exposeApplications.rejectApplication(1,"TODO");
 	}
 
 	public int getApplicant(int applicationId) {
