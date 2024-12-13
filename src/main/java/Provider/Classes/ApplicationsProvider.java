@@ -2,15 +2,14 @@ package Provider.Classes;
 
 import Model.Classes.Application;
 import Model.Classes.User;
-import Provider.Interfaces.listApplications;
-import Provider.Interfaces.manageApplications;
+import Provider.Facades.listApplications;
+import Provider.Facades.manageApplications;
 import View.Classes.ApplicationsView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import Model.Interfaces.exposeApplications;
-import View.Classes.View;
+
+import Model.Facades.exposeApplications;
 
 public class ApplicationsProvider extends Provider implements manageApplications, listApplications {
 

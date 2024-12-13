@@ -5,6 +5,7 @@ import Provider.Classes.CopyProvider;
 import Provider.Classes.Provider;
 import java.util.ArrayList;
 import java.util.Scanner;
+import Provider.Facades.makeCopy;
 
 public class CopyView extends View {
 
@@ -41,8 +42,15 @@ public class CopyView extends View {
 
 	private void submit() {
 		if(this.selectedDepartmentId != -1 && this.selectedCopyType != null) {
-			this.provider.startCreateCopy(this.loggedUserID, this.selectedDepartmentId, this.selectedCopyType);
-			System.out.println("\nTworzenie kopii...");
+			boolean output = makeCopy.startCreateCopy(this.loggedUserID, this.selectedDepartmentId, this.selectedCopyType);
+
+			if(output){
+				System.out.println("Stworzono kopie");
+			}
+
+			else{
+				System.out.println("Coś poszło nie tak");
+			}
 		} else System.out.println("Nie wybrano poprawnych parametrow");
 
 	}

@@ -1,12 +1,22 @@
 package Model.Classes;
 
 import Model.Enums.CopyType;
-import Model.Interfaces.manageCopies;
+import Model.Facades.manageCopies;
 
-public class Copy extends Model implements manageCopies {
+public class Copy extends Model {
 
 	private final long size;
+
+	public int getDepartmentID() {
+		return departmentID;
+	}
+
 	private final int departmentID;
+
+	public String getPath() {
+		return path;
+	}
+
 	private final String path;
 	private final CopyType type;
 

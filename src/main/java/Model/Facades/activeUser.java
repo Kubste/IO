@@ -1,4 +1,4 @@
-package Model.Interfaces;
+package Model.Facades;
 
 import Model.Classes.DBManager;
 import Model.Classes.User;
@@ -23,7 +23,7 @@ public interface activeUser {
 		else throw new RuntimeException("Bledne haslo");
 	}
 
-	static void logout() {
+	static void logout(int userId) {
 		System.out.println("\n\nNastapilo wylogowanie");
 	}
 

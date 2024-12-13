@@ -1,5 +1,6 @@
 import Model.Classes.*;
 import Model.Enums.AccessLevel;
+import Model.Facades.activeUser;
 import Provider.Classes.ApplicationsProvider;
 import Provider.Classes.CopyProvider;
 import com.github.javafaker.Faker;
@@ -92,25 +93,23 @@ public class Main {
         database.setAllApplications(mockedApplications);
         DBManager.getInstance().setDatabase(database);
 
-        User loggedUser = new User();
         User userToLogIn = mockedOfficials.get(random.nextInt(mockedOfficials.size()));
-        loggedUser.login(userToLogIn.getEmail(), userToLogIn.getPassword());
+        activeUser.login(userToLogIn.getEmail(), userToLogIn.getPassword());
         //User loggedUser = mockedOfficials.get(random.nextInt(mockedOfficials.size()));
         //loggedUser.login(loggedUser.getEmail(), loggedUser.getPassword());
 
-        ApplicationsProvider applicationsProvider = new ApplicationsProvider(loggedUser);
+        ApplicationsProvider applicationsProvider = new ApplicationsProvider(userToLogIn);
         applicationsProvider.createView();
 
-        loggedUser.logout();
+        activeUser.logout(userToLogIn.getId());
 
         //loggedUser = new User(faker.name().firstName(), faker.name().lastName(), AccessLevel.ADMIN, "admin@wp.pl", "adminpassword", "admin", -1);
         userToLogIn = mockedAdmins.get(random.nextInt(mockedOfficials.size()));
-        loggedUser.login(userToLogIn.getEmail(), userToLogIn.getPassword());
+        activeUser.login(userToLogIn.getEmail(), userToLogIn.getPassword());
         //loggedUser.setAssignedDepartmentsIDs(adminAssignedDepartments);
-        CopyProvider copyProvider = new CopyProvider(loggedUser);
+        CopyProvider copyProvider = new CopyProvider(userToLogIn);
         copyProvider.createView();
 
-        loggedUser.logout();
-        loggedUser = null;
+        activeUser.logout(userToLogIn.getId());
     }
 }

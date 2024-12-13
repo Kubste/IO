@@ -1,7 +1,7 @@
 package Model.Classes;
 
 import Model.Enums.AccessLevel;
-import Model.Interfaces.activeUser;
+import Model.Facades.activeUser;
 import java.util.HashSet;
 
 public class User extends Model implements activeUser {
@@ -80,5 +80,10 @@ public class User extends Model implements activeUser {
 	@Override
 	public boolean isActive() {
 		return this.isActive;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s %s", this.firstName, this.lastName, this.accessLevel.toString());
 	}
 }

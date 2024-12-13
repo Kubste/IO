@@ -1,16 +1,25 @@
 package Model.Classes;
 
-import Model.Interfaces.getDepartments;
+import Model.Facades.manageDepartments;
 
 import java.util.ArrayList;
 
-public class Department extends Model implements getDepartments {
+public class Department extends Model {
 
 	private String name;
 	private String address;
 	private ArrayList<User> officials;
 	private ArrayList<User> citizens;
 	private int administratorID;
+
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean locked) {
+		isLocked = locked;
+	}
+
 	private boolean isLocked;
 
 	/**

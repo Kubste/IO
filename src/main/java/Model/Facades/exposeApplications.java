@@ -1,13 +1,15 @@
-package Model.Interfaces;
+package Model.Facades;
 
 import Model.Classes.Application;
 import Model.Classes.DBManager;
 import Model.Enums.ApplicationStatus;
 import Model.Classes.User;
+import com.github.javafaker.App;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public interface exposeApplications {
+public abstract class exposeApplications {
 
 	/**
 	 * 
@@ -37,7 +39,7 @@ public interface exposeApplications {
 	 * 
 	 * @param applicationID
 	 */
-	static void acceptApplication(int applicationID){
+	public static void acceptApplication(int applicationID){
 
 	}
 
@@ -45,14 +47,19 @@ public interface exposeApplications {
 	 * 
 	 * @param applicationID
 	 */
-	static void rejectApplication(int applicationID, String rejectedDescription){
+	public static void rejectApplication(int applicationID, String rejectedDescription){
 
+	}
+
+
+	public static ArrayList<Application> getApplicationsFromDepartment(int departmentId){
+		return DBManager.getInstance().getDatabase().getAllApplications().stream().filter(a -> a.getDepartmentID() == departmentId).collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	/**
 	 * @param user
 	 */
-	static ArrayList<Application> getApplications(User user) {
+	public static ArrayList<Application> getApplications(User user) {
 
 		switch (user.getAccessLevel()){
 			case CITIZEN -> {

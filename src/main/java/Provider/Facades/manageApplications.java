@@ -1,4 +1,4 @@
-package Provider.Interfaces;
+package Provider.Facades;
 
 public interface manageApplications {
 

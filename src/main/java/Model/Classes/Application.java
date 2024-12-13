@@ -1,10 +1,10 @@
 package Model.Classes;
 
 import Model.Enums.ApplicationStatus;
-import Model.Interfaces.exposeApplications;
+import Model.Facades.exposeApplications;
 import java.time.LocalDateTime;
 
-public class Application extends Model implements exposeApplications {
+public class Application extends Model {
 
 	private final int userID;
 	private final int departmentID;
@@ -43,6 +43,11 @@ public class Application extends Model implements exposeApplications {
 	public boolean delete(){
 		this.isArchived = true;
 		return super.delete();
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s %s", this.userID, this.description, this.status);
 	}
 
 }

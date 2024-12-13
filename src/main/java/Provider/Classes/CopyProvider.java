@@ -1,27 +1,21 @@
 package Provider.Classes;
 
 import Model.Classes.User;
-import Model.Enums.CopyType;
 import Model.Classes.Department;
-import Model.Interfaces.getDepartments;
-import Model.Interfaces.manageCopies;
-import Provider.Interfaces.listDepartments;
-import Provider.Interfaces.makeCopy;
+import Model.Facades.manageDepartments;
 import View.Classes.CopyView;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
-public class CopyProvider extends Provider implements makeCopy, listDepartments {
+public class CopyProvider extends Provider {
 
 	private final ArrayList<Department> assignedDepartments;
 
 	public CopyProvider(User loggedUser) {
 		super(loggedUser);
-		this.assignedDepartments = new ArrayList<>(Objects.requireNonNull(getDepartments.getAssignedDepartments(loggedUser)));
+		this.assignedDepartments = new ArrayList<>(Objects.requireNonNull(manageDepartments.getAssignedDepartments(loggedUser.getId())));
 		this.supportedViews = new ArrayList<>(List.of(CopyView.class));
 	}
 
@@ -30,14 +24,5 @@ public class CopyProvider extends Provider implements makeCopy, listDepartments 
 		ViewBuilder.createView(CopyView.class, assignedDepartments.stream().map(Department::getId), this);
 	}
 
-	@Override
-	public ArrayList<Department> getAssignedDepartments(int userID) {
-		return this.assignedDepartments;
-	}
 
-	@Override
-	public void startCreateCopy(int userID, int selectedDepartmentId, CopyType selectedCopyType) {
-		File file = new File(UUID.randomUUID().toString() + ".txt");
-		manageCopies.addCopy(file, selectedCopyType, selectedDepartmentId);
-	}
 }
