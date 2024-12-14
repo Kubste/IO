@@ -114,13 +114,14 @@ public class DBManager {
 
         switch(model) {
             case Application application -> {
-                database.getAllApplications()
-                        .stream()
-                        .filter(app -> app.getId() == model.getId())
-                        .findFirst()
-                        .ifPresent(app -> {
-                            app = (Application) model;
-                        });
+//                database.getAllApplications()
+//                        .stream()
+//                        .filter(app -> app.getId() == model.getId())
+//                        .findFirst()
+//                        .ifPresent(app -> {
+//                            app = (Application) model;
+//                        });
+                database.updateApplication(application);
             }case User user -> {
                 ArrayList<User> users = database.getAllUsers();
                 users.remove(user);

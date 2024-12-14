@@ -20,8 +20,11 @@ public class ApplicationsView extends View {
 	private void chooseApplication() {
 		System.out.print("Podaj ID wniosku: ");
 		Scanner scanner = new Scanner(System.in);
-		this.selectedApplicationId = scanner.nextInt();
-		System.out.println("Wybrano wniosek o ID: " + this.selectedApplicationId);
+		int ID = scanner.nextInt();
+		if(this.assignedApplicationIds.contains(ID)) {
+			this.selectedApplicationId = ID;
+			System.out.println("Wybrano wniosek o ID: " + this.selectedApplicationId);
+		} else System.out.println("Wybrano bledny wniosek");
 	}
 
 	private void acceptApplication() {
@@ -62,6 +65,7 @@ public class ApplicationsView extends View {
 	}
 
 	private void reset() {
+		assignedApplicationIds.remove(Integer.valueOf(this.selectedApplicationId));
 		this.selectedApplicationId = -1;
 	}
 
@@ -102,5 +106,4 @@ public class ApplicationsView extends View {
 			else callOperation(userChoice);
 		}
 	}
-
 }

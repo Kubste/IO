@@ -50,4 +50,13 @@ public class Database {
 	public void setAllDepartments(ArrayList<Department> allDepartments) {
 		this.allDepartments = allDepartments;
 	}
+
+	public void updateApplication(Application application) {
+		for(int i = 0; i < allApplications.size(); i++) {
+			if(allApplications.get(i).getId() == application.getId()) {
+				allApplications.set(i, application);
+				return;
+			}
+		}
+	}
 }

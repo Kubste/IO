@@ -1,7 +1,7 @@
 package Model.Classes;
 
 import Model.Enums.ApplicationStatus;
-import Model.Facades.exposeApplications;
+
 import java.time.LocalDateTime;
 
 public class Application extends Model {
@@ -38,6 +38,22 @@ public class Application extends Model {
 		return isArchived;
 	}
 
+	public ApplicationStatus getStatus() {
+		return this.status;
+	}
+
+	public void setAcceptParams() {
+		this.isArchived = true;
+		this.considerationDate = LocalDateTime.now();
+	}
+
+	public void setRejectParams(String description) {
+		this.isArchived = true;
+		this.considerationDate = LocalDateTime.now();
+		this.rejectedDescription = description;
+		this.update();
+	}
+
 
 	@Override
 	public boolean delete(){
@@ -49,5 +65,4 @@ public class Application extends Model {
 	public String toString() {
 		return String.format("%s %s %s", this.userID, this.description, this.status);
 	}
-
 }

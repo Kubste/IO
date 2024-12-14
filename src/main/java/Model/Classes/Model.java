@@ -27,6 +27,7 @@ public abstract class Model {
 
 	public boolean save() {
 		dbManager.save(this);
+		this.updated_at = LocalDateTime.now();
 		return true;
 	}
 

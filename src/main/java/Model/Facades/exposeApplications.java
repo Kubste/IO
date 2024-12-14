@@ -4,9 +4,9 @@ import Model.Classes.Application;
 import Model.Classes.DBManager;
 import Model.Enums.ApplicationStatus;
 import Model.Classes.User;
-import com.github.javafaker.App;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public abstract class exposeApplications {
@@ -32,7 +32,8 @@ public abstract class exposeApplications {
 	 * @param applicationID
 	 */
 	static ApplicationStatus getApplicationStatus(int applicationID){
-		return ApplicationStatus.ACCEPTED;
+		return Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
+                filter(application -> application.getId() == applicationID).findFirst().orElse(null)).getStatus();
 	}
 
 	/**
@@ -40,7 +41,10 @@ public abstract class exposeApplications {
 	 * @param applicationID
 	 */
 	public static void acceptApplication(int applicationID){
-
+		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
+                filter(app -> app.getId() == applicationID).findFirst().orElse(null));
+		application.setAcceptParams();
+		application.update();
 	}
 
 	/**
@@ -48,7 +52,10 @@ public abstract class exposeApplications {
 	 * @param applicationID
 	 */
 	public static void rejectApplication(int applicationID, String rejectedDescription){
-
+		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
+                filter(app -> app.getId() == applicationID).findFirst().orElse(null));
+		application.setRejectParams(rejectedDescription);
+		application.save();
 	}
 
 

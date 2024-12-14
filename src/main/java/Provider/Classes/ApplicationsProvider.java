@@ -62,7 +62,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.filter(app -> app.getId() == id)
 				.findFirst();
 
-		exposeApplications.rejectApplication(1,"TODO");
+		exposeApplications.rejectApplication(id, rejectDescription);
 	}
 
 	public int getApplicant(int applicationId) {
