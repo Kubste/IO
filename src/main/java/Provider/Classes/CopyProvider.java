@@ -4,7 +4,6 @@ import Model.Classes.User;
 import Model.Classes.Department;
 import Model.Facades.manageDepartments;
 import View.Classes.CopyView;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +22,4 @@ public class CopyProvider extends Provider {
 	public void createView() {
 		ViewBuilder.createView(CopyView.class, assignedDepartments.stream().map(Department::getId), this);
 	}
-
-
 }

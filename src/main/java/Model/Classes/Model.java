@@ -36,9 +36,8 @@ public abstract class Model {
 		return dbManager.delete(this);
 	}
 
-	public boolean update() {
+	public void setUpdated_at() {
 		this.updated_at = LocalDateTime.now();
-		return dbManager.update(this);
 	}
 
 	private void assignID() {

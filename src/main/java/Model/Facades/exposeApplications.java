@@ -4,7 +4,6 @@ import Model.Classes.Application;
 import Model.Classes.DBManager;
 import Model.Enums.ApplicationStatus;
 import Model.Classes.User;
-
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public abstract class exposeApplications {
 		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
                 filter(app -> app.getId() == applicationID).findFirst().orElse(null));
 		application.setAcceptParams();
-		application.update();
+		DBManager.getInstance().update(application);
 	}
 
 	/**
@@ -55,7 +54,7 @@ public abstract class exposeApplications {
 		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
                 filter(app -> app.getId() == applicationID).findFirst().orElse(null));
 		application.setRejectParams(rejectedDescription);
-		application.save();
+		DBManager.getInstance().update(application);
 	}
 
 

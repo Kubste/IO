@@ -4,7 +4,6 @@ import Model.Classes.DBManager;
 import Model.Classes.Department;
 import Model.Classes.User;
 import Model.Enums.AccessLevel;
-
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 

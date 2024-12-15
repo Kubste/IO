@@ -2,14 +2,12 @@ package Provider.Facades;
 
 import Model.Classes.*;
 import Model.Enums.CopyType;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import Model.Facades.manageDepartments;
 import Model.Facades.exposeApplications;
 import Model.Facades.manageCopies;
@@ -121,13 +119,9 @@ public abstract class makeCopy {
 			}
 		}
 
-
-
 		sendMail(userID, "Zapisano kopię danych z urzędu");
 		manageDepartments.unlockDepartment(selectedDepartmentId);
 
-
 		return true;
 	}
-
 }

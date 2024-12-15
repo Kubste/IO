@@ -1,7 +1,5 @@
 package Model.Classes;
 
-import Model.Facades.manageDepartments;
-
 import java.util.ArrayList;
 
 public class Department extends Model {
@@ -11,15 +9,6 @@ public class Department extends Model {
 	private ArrayList<User> officials;
 	private ArrayList<User> citizens;
 	private int administratorID;
-
-	public boolean isLocked() {
-		return isLocked;
-	}
-
-	public void setLocked(boolean locked) {
-		isLocked = locked;
-	}
-
 	private boolean isLocked;
 
 	/**
@@ -35,5 +24,13 @@ public class Department extends Model {
 		this.administratorID = administratorID;
 		this.officials = officials;
 		this.citizens = citizens;
+	}
+
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean locked) {
+		isLocked = locked;
 	}
 }

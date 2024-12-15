@@ -44,11 +44,9 @@ public class CopyView extends View {
 		if(this.selectedDepartmentId != -1 && this.selectedCopyType != null) {
 			boolean output = makeCopy.startCreateCopy(this.loggedUserID, this.selectedDepartmentId, this.selectedCopyType);
 
-			if(output){
+			if(output) {
 				System.out.println("Stworzono kopie");
-			}
-
-			else{
+			} else {
 				System.out.println("Coś poszło nie tak");
 			}
 		} else System.out.println("Nie wybrano poprawnych parametrow");

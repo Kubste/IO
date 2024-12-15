@@ -8,7 +8,6 @@ import View.Classes.ApplicationsView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import Model.Facades.exposeApplications;
 
 public class ApplicationsProvider extends Provider implements manageApplications, listApplications {

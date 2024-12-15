@@ -28,20 +28,27 @@ public class ApplicationsView extends View {
 	}
 
 	private void acceptApplication() {
+		if(!this.assignedApplicationIds.contains(this.selectedApplicationId)) {
+			System.out.println("Nie wybrano wniosku");
+			return;
+		}
 		provider.acceptApplication(selectedApplicationId);
-		System.out.println("Wniosek zostal zaakceptowany");
 		this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek zaakceptowany");
+		System.out.println("Wniosek zostal zaakceptowany");
 		this.reset();
 	}
 
 	private void rejectApplication() {
 		Scanner scanner = new Scanner(System.in);
+		if(!this.assignedApplicationIds.contains(this.selectedApplicationId)) {
+			System.out.println("Nie wybrano wniosku");
+			return;
+		}
 		System.out.print("Podaj tresc odmowy: ");
-		//scanner.nextLine();
 		String rejectDescription = scanner.nextLine();
 		provider.rejectApplication(selectedApplicationId, rejectDescription);
-		System.out.println("Wniosek zostal odrzucony");
 		this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek odrzucony, uzasadnienie odrzucenia: " + rejectDescription);
+		System.out.println("Wniosek zostal odrzucony");
 		this.reset();
 	}
 

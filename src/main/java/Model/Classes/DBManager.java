@@ -49,10 +49,9 @@ public class DBManager {
     }
 
 	/**
-	 * 
-	 * @param model
-	 */
-	public boolean save(Model model) {
+     * @param model
+     */
+	public void save(Model model) {
         switch(model) {
             case Application application -> {
                 ArrayList<Application> applications = database.getAllApplications();
@@ -71,11 +70,9 @@ public class DBManager {
                 departments.add(department);
                 database.setAllDepartments(departments);
             }case null, default -> {
-                return false;
             }
         }
-		return true;
-	}
+    }
 
 	/**
 	 * 
@@ -107,10 +104,9 @@ public class DBManager {
 	}
 
 	/**
-	 * 
-	 * @param model
-	 */
-	public boolean update(Model model) {
+     * @param model
+     */
+	public void update(Model model) {
 
         switch(model) {
             case Application application -> {
@@ -135,9 +131,7 @@ public class DBManager {
                 departments.remove(department);
                 database.setAllDepartments(departments);
             }case null, default -> {
-                return false;
             }
         }
-        return true;
-	}
+    }
 }
