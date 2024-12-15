@@ -36,7 +36,8 @@ public abstract class makeCopy {
 
 		ArrayList<Department> assignedDepartments = manageDepartments.getAssignedDepartments(userID);
 
-		ArrayList<Integer> assignedDepartmentIds = (ArrayList<Integer>) assignedDepartments.stream().map(Department::getId).collect(Collectors.toSet());
+        assert assignedDepartments != null;
+        ArrayList<Integer> assignedDepartmentIds = assignedDepartments.stream().map(Department::getId).collect(Collectors.toCollection(ArrayList::new));
 
 
 		if(!assignedDepartmentIds.contains(selectedDepartmentId)){
@@ -76,6 +77,7 @@ public abstract class makeCopy {
 					writer.write(application + "\n");
 				}
 
+				manageCopies.addCopy(copyFile, selectedCopyType, selectedDepartmentId);
 				System.out.println("Dane zostały zapisane do pliku: " + copyFile.getAbsolutePath());
 			} catch (IOException e) {
 				System.out.println("Wystąpił błąd podczas zapisywania do pliku: " + e.getMessage());
@@ -83,6 +85,8 @@ public abstract class makeCopy {
 		}
 		else{
 			Copy lastCopy = manageCopies.getLastCopyForDepartment(selectedDepartmentId);
+			if(lastCopy == null) return false;
+
 			copyFile = new File(lastCopy.getPath());
 
 
@@ -112,6 +116,7 @@ public abstract class makeCopy {
 						}
 					}
 
+					manageCopies.addCopy(copyFile, selectedCopyType, selectedDepartmentId);
 					System.out.println("Brakujące dane zostały dopisane do pliku: " + copyFile.getAbsolutePath());
 				}
 			} catch (IOException e) {

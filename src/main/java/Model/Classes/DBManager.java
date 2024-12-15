@@ -107,31 +107,6 @@ public class DBManager {
      * @param model
      */
 	public void update(Model model) {
-
-        switch(model) {
-            case Application application -> {
-//                database.getAllApplications()
-//                        .stream()
-//                        .filter(app -> app.getId() == model.getId())
-//                        .findFirst()
-//                        .ifPresent(app -> {
-//                            app = (Application) model;
-//                        });
-                database.updateApplication(application);
-            }case User user -> {
-                ArrayList<User> users = database.getAllUsers();
-                users.remove(user);
-                database.setAllUsers(users);
-            }case Copy copy -> {
-                ArrayList<Copy> copies = database.getAllCopies();
-                copies.remove(copy);
-                database.setAllCopies(copies);
-            }case Department department -> {
-                ArrayList<Department> departments = database.getAllDepartments();
-                departments.remove(department);
-                database.setAllDepartments(departments);
-            }case null, default -> {
-            }
-        }
+        database.updateDB(model);
     }
 }
