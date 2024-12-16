@@ -10,6 +10,31 @@ public class Department extends Model {
 	private ArrayList<User> citizens;
 	private int administratorID;
 
+	private boolean isLocked;
+
+	/**
+	 * 
+	 * @param name
+	 * @param address
+	 * @param administratorID
+	 */
+	public Department(String name, String address, int administratorID, ArrayList<User> officials, ArrayList<User> citizens) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.administratorID = administratorID;
+		this.officials = officials;
+		this.citizens = citizens;
+	}
+
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean locked) {
+		isLocked = locked;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -48,38 +73,5 @@ public class Department extends Model {
 
 	public void setAdministratorID(int administratorID) {
 		this.administratorID = administratorID;
-	}
-
-	public boolean isLocked() {
-		return isLocked;
-	}
-
-	public void setLocked(boolean locked) {
-		isLocked = locked;
-	}
-
-	private boolean isLocked;
-
-	/**
-	 * 
-	 * @param name
-	 * @param address
-	 * @param administratorID
-	 */
-	public Department(String name, String address, int administratorID, ArrayList<User> officials, ArrayList<User> citizens) {
-		super();
-		this.name = name;
-		this.address = address;
-		this.administratorID = administratorID;
-		this.officials = officials;
-		this.citizens = citizens;
-	}
-
-	public boolean isLocked() {
-		return isLocked;
-	}
-
-	public void setLocked(boolean locked) {
-		isLocked = locked;
 	}
 }

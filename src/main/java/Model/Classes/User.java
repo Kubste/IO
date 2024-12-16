@@ -6,12 +6,12 @@ import java.util.HashSet;
 
 public class User extends Model implements activeUser {
 
-	private final String firstName;
-	private final String lastName;
-	private final AccessLevel accessLevel;
-	private final String email;
-	private final String password;
-	private final String username;
+	private String firstName;
+	private String lastName;
+	private AccessLevel accessLevel;
+	private String email;
+	private String password;
+	private String username;
 	private int departmentID;
 	private HashSet<Integer> assignedDepartmentsIDs;
 	private boolean isActive;

@@ -57,6 +57,30 @@ public class Application extends Model {
 		this.setUpdated_at();
 	}
 
+	public void setArchived(boolean isArchived) {
+		this.isArchived = isArchived;
+	}
+
+	public void setStatus(ApplicationStatus status) {
+		this.status = status;
+	}
+
+	public void setConsiderationDate(LocalDateTime considerationDate) {
+		this.considerationDate = considerationDate;
+	}
+
+	public LocalDateTime getConsiderationDate() {
+		return this.considerationDate;
+	}
+
+	public void setRejectedDescription(String rejectedDescription) {
+		this.rejectedDescription = rejectedDescription;
+	}
+
+	public String getRejectedDescription() {
+		return this.rejectedDescription;
+	}
+
 	@Override
 	public boolean delete(){
 		this.isArchived = true;
