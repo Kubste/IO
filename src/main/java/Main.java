@@ -98,10 +98,10 @@ public class Main {
         //User loggedUser = mockedOfficials.get(random.nextInt(mockedOfficials.size()));
         //loggedUser.login(loggedUser.getEmail(), loggedUser.getPassword());
 
-        ApplicationsProvider applicationsProvider = new ApplicationsProvider(userToLogIn);
-        applicationsProvider.createView();
+        //ApplicationsProvider applicationsProvider = new ApplicationsProvider(userToLogIn);
+        //applicationsProvider.createView();
 
-        activeUser.logout(userToLogIn.getId());
+        //activeUser.logout(userToLogIn.getId());
 
         //loggedUser = new User(faker.name().firstName(), faker.name().lastName(), AccessLevel.ADMIN, "admin@wp.pl", "adminpassword", "admin", -1);
         userToLogIn = mockedAdmins.get(random.nextInt(mockedOfficials.size()));

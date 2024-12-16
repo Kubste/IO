@@ -4,8 +4,34 @@ import Model.Enums.CopyType;
 
 public class Copy extends Model {
 
-	private final long size;
-	private final int departmentID;
+	private long size;
+
+	public int getDepartmentID() {
+		return departmentID;
+	}
+
+	private int departmentID;
+
+	public void setSize(long size) {
+		this.size = size;
+	}
+
+	public void setDepartmentID(int departmentID) {
+		this.departmentID = departmentID;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public CopyType getType() {
+		return type;
+	}
+
 	private final String path;
 	private final CopyType type;
 
