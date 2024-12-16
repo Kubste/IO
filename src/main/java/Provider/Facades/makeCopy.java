@@ -36,8 +36,7 @@ public abstract class makeCopy {
 
 		ArrayList<Department> assignedDepartments = manageDepartments.getAssignedDepartments(userID);
 
-        assert assignedDepartments != null;
-        ArrayList<Integer> assignedDepartmentIds = assignedDepartments.stream().map(Department::getId).collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<Integer> assignedDepartmentIds = (ArrayList<Integer>) assignedDepartments.stream().map(Department::getId).collect(Collectors.toList());
 
 
 		if(!assignedDepartmentIds.contains(selectedDepartmentId)){
@@ -59,6 +58,7 @@ public abstract class makeCopy {
 		ArrayList<Application> applications = exposeApplications.getApplicationsFromDepartment(selectedDepartmentId);
 
 		File copyFile = new File("./" +  UUID.randomUUID().toString() + ".txt");
+
 		if(selectedCopyType == CopyType.FULL){
 			try (FileWriter writer = new FileWriter(copyFile)) {
 
@@ -126,6 +126,7 @@ public abstract class makeCopy {
 
 		sendMail(userID, "Zapisano kopię danych z urzędu");
 		manageDepartments.unlockDepartment(selectedDepartmentId);
+		manageCopies.addCopy(copyFile,selectedCopyType, selectedDepartmentId);
 
 		return true;
 	}

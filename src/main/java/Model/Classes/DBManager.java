@@ -1,5 +1,7 @@
 package Model.Classes;
 
+import com.github.javafaker.App;
+
 import java.util.ArrayList;
 
 public class DBManager {
@@ -104,9 +106,60 @@ public class DBManager {
 	}
 
 	/**
-     * @param model
-     */
-	public void update(Model model) {
-        database.updateDB(model);
+	 * 
+	 * @param model
+	 */
+	public boolean update(Model model) {
+
+        switch(model) {
+            case Application application -> {
+                for(Application applicationDb : database.getAllApplications()){
+                    if(applicationDb.getId() == application.getId()){
+                        applicationDb.setArchived(application.isArchived());
+                        applicationDb.setStatus(application.getStatus());
+                        applicationDb.setConsiderationDate(application.getConsiderationDate());
+                        applicationDb.setRejectedDescription(application.getRejectedDescription());
+                        return true;
+                    }
+                }
+                return false;
+            }case User user -> {
+                for(User userDb : database.getAllUsers()){
+                    if(userDb.getId() == user.getId()){
+                        userDb.setFirstName(user.getFirstName());
+                        userDb.setEmail(user.getEmail());
+                        userDb.setAccessLevel(user.getAccessLevel());
+                        userDb.setIsActive(user.isActive());
+                        userDb.setLastName(user.getLastName());
+                        userDb.setPassword(user.getPassword());
+                        return true;
+                    }
+                }
+                return false;
+
+            }case Copy copy -> {
+                for(Copy copyDb : database.getAllCopies()){
+                    if(copyDb.getId() == copy.getId()){
+                        copyDb.setSize(copy.getSize());
+                        copyDb.setDepartmentID(copy.getDepartmentID());
+                        return true;
+                    }
+                }
+                return false;
+
+            }case Department department -> {
+                for(Department departmentDb : database.getAllDepartments()){
+                    departmentDb.setName(department.getName());
+                    departmentDb.setAddress(department.getAddress());
+                    departmentDb.setCitizens(department.getCitizens());
+                    departmentDb.setOfficials(department.getOfficials());
+                    departmentDb.setLocked(department.isLocked());
+                    return true;
+                }
+                return false;
+            }case null, default -> {
+                return false;
+            }
+        }
     }
 }

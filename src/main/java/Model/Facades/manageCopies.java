@@ -24,7 +24,7 @@ public abstract class manageCopies {
 	}
 
 	public static boolean addCopy(File file, CopyType copyType, int departmentID) {
-		DBManager.getInstance().getDatabase().addCopy(new Copy(file.getTotalSpace(), departmentID, file.getPath(), copyType));
+		DBManager.getInstance().save(new Copy(file.getTotalSpace(), departmentID, file.getPath(), copyType));
 		return true;
 	}
 

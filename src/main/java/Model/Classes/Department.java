@@ -9,6 +9,55 @@ public class Department extends Model {
 	private ArrayList<User> officials;
 	private ArrayList<User> citizens;
 	private int administratorID;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public ArrayList<User> getOfficials() {
+		return officials;
+	}
+
+	public void setOfficials(ArrayList<User> officials) {
+		this.officials = officials;
+	}
+
+	public ArrayList<User> getCitizens() {
+		return citizens;
+	}
+
+	public void setCitizens(ArrayList<User> citizens) {
+		this.citizens = citizens;
+	}
+
+	public int getAdministratorID() {
+		return administratorID;
+	}
+
+	public void setAdministratorID(int administratorID) {
+		this.administratorID = administratorID;
+	}
+
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean locked) {
+		isLocked = locked;
+	}
+
 	private boolean isLocked;
 
 	/**
