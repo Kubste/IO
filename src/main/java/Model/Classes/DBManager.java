@@ -54,6 +54,7 @@ public class DBManager {
      * @param model
      */
 	public void save(Model model) {
+        if(model == null) throw new NullPointerException();
         switch(model) {
             case Application application -> {
                 ArrayList<Application> applications = database.getAllApplications();
@@ -71,13 +72,12 @@ public class DBManager {
                 ArrayList<Department> departments = database.getAllDepartments();
                 departments.add(department);
                 database.setAllDepartments(departments);
-            }case null, default -> {
-            }
+            }case null, default -> throw new IllegalArgumentException("Nieprawidlowy typ obiektu: " + model.getClass().getName());
         }
     }
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 */
 	public boolean delete(Model model) {
@@ -106,11 +106,11 @@ public class DBManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 */
 	public boolean update(Model model) {
-
+        if(model == null) throw new NullPointerException();
         switch(model) {
             case Application application -> {
                 for(Application applicationDb : database.getAllApplications()){
@@ -149,17 +149,17 @@ public class DBManager {
 
             }case Department department -> {
                 for(Department departmentDb : database.getAllDepartments()){
-                    departmentDb.setName(department.getName());
-                    departmentDb.setAddress(department.getAddress());
-                    departmentDb.setCitizens(department.getCitizens());
-                    departmentDb.setOfficials(department.getOfficials());
-                    departmentDb.setLocked(department.isLocked());
-                    return true;
+                    if(departmentDb.getId() == department.getId()) {
+                        departmentDb.setName(department.getName());
+                        departmentDb.setAddress(department.getAddress());
+                        departmentDb.setCitizens(department.getCitizens());
+                        departmentDb.setOfficials(department.getOfficials());
+                        departmentDb.setLocked(department.isLocked());
+                        return true;
+                    }
                 }
                 return false;
-            }case null, default -> {
-                return false;
-            }
+            }case null, default -> throw new IllegalArgumentException("Nieprawidlowy typ obiektu: " + model.getClass().getName());
         }
     }
 }
