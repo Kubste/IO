@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public interface ViewBuilder {
 
-    static void createView(Class<? extends View> viewClass, Stream<Integer> stream, Provider provider) {
+    static void createView(Class<? extends View> viewClass, Stream<Integer> stream, Provider provider) throws Exception {
         View view = null;
         ArrayList<Integer> IDs = stream.collect(Collectors.toCollection(ArrayList::new));
 

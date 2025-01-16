@@ -25,7 +25,7 @@ public abstract class Provider {
 		}
 	}
 
-	public void createView() {
+	public void createView() throws Exception {
 		throw new UnsupportedOperationException();
 	}
 

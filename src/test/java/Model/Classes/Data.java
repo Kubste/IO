@@ -39,7 +39,6 @@ public class Data {
         departments.add(new Department("Department1", "Address1", 1, new ArrayList<>(), new ArrayList<>()));
         departments.add(new Department("Department2", "Address2", 2, new ArrayList<>(), new ArrayList<>()));
         departments.add(new Department("Department3", "Address3", 3, new ArrayList<>(), new ArrayList<>()));
-
         return departments;
     }
 }

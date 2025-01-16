@@ -2,6 +2,7 @@ package Model.Classes;
 
 import com.github.javafaker.App;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 public class DBManager {
@@ -55,6 +56,7 @@ public class DBManager {
      */
 	public void save(Model model) {
         if(model == null) throw new NullPointerException();
+        model.assignID();
         switch(model) {
             case Application application -> {
                 ArrayList<Application> applications = database.getAllApplications();
@@ -66,6 +68,8 @@ public class DBManager {
                 database.setAllUsers(users);
             }case Copy copy -> {
                 ArrayList<Copy> copies = database.getAllCopies();
+                ArrayList<Department> departments = database.getAllDepartments();
+
                 copies.add(copy);
                 database.setAllCopies(copies);
             }case Department department -> {

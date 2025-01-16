@@ -40,7 +40,7 @@ public class CopyView extends View {
 		System.out.println("Wybrano typ kopii: "+selectedCopyType);
 	}
 
-	private void submit() {
+	private void submit() throws Exception {
 		if(this.selectedDepartmentId != -1 && this.selectedCopyType != null) {
 			boolean output = makeCopy.startCreateCopy(this.loggedUserID, this.selectedDepartmentId, this.selectedCopyType);
 
@@ -72,7 +72,7 @@ public class CopyView extends View {
 		for(int id : assignedDepartmentIds) System.out.println(++i + ". ID urzedu: "+id);
 	}
 
-	private void callOperation(int choice) {
+	private void callOperation(int choice) throws Exception {
 		switch(choice) {
 			case 1 -> this.showSelectedParameters();
 			case 2 -> this.chooseDepartment();
@@ -92,7 +92,7 @@ public class CopyView extends View {
 	}
 
 	@Override
-	public void render() {
+	public void render() throws Exception {
 		System.out.println("\nZalogowany uzytkownik: "+this.provider.getLoggedUserFullName());
 		while(true) {
 			System.out.println("\n\nWidok kopii zapasowej\n");

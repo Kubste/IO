@@ -20,6 +20,11 @@ public class CopyProvider extends Provider {
 
 	@Override
 	public void createView() {
-		ViewBuilder.createView(CopyView.class, assignedDepartments.stream().map(Department::getId), this);
+		try{
+			ViewBuilder.createView(CopyView.class, assignedDepartments.stream().map(Department::getId), this);
+		} catch (Exception e){
+
+		}
+
 	}
 }

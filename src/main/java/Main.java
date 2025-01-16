@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Faker faker = new Faker();
         Random random = new Random();

@@ -22,7 +22,7 @@ public class ApplicationsProvider extends Provider implements manageApplications
 	}
 
 	@Override
-	public void createView() {
+	public void createView() throws Exception {
 		ViewBuilder.createView(ApplicationsView.class, assignedApplications.stream().map(Application::getId), this);
 	}
 

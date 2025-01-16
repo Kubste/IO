@@ -5,6 +5,7 @@ import Model.Enums.CopyType;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,14 +16,14 @@ import Model.Facades.manageCopies;
 public abstract class makeCopy {
 
 
-	private static boolean checkFreeSpace(){
+	public static boolean checkFreeSpace(){
 		File disk = new File("C:\\");
 		long freeSpaceBytes = disk.getFreeSpace();
 		long freeSpaceMB = freeSpaceBytes / (1024 * 1024);
 		return freeSpaceMB >= 50;
 	}
 
-	private static void sendMail(int receiverId, String message){
+	public static void sendMail(int receiverId, String message){
 		System.out.println("Wysyłanie maila o treści: " + message  + " do użytkownika o id " + receiverId);
 	}
 
@@ -32,25 +33,23 @@ public abstract class makeCopy {
 	 * @param selectedDepartmentId
 	 * @param selectedCopyType
 	 */
-	public static boolean startCreateCopy(int userID, int selectedDepartmentId, CopyType selectedCopyType) {
+	public static boolean startCreateCopy(int userID, int selectedDepartmentId, CopyType selectedCopyType) throws Exception {
 
 		ArrayList<Department> assignedDepartments = manageDepartments.getAssignedDepartments(userID);
-
 		ArrayList<Integer> assignedDepartmentIds = (ArrayList<Integer>) assignedDepartments.stream().map(Department::getId).collect(Collectors.toList());
 
 
 		if(!assignedDepartmentIds.contains(selectedDepartmentId)){
-			return false;
+			throw new NoSuchElementException("Provided department is not assigned to this user!");
 		}
 
 		manageDepartments.lockDepartment(selectedDepartmentId);
 
 		boolean isFreeSpace = checkFreeSpace();
-
 		if(!isFreeSpace){
 			sendMail(userID, "Brak wolnego miejsca na dysku do stworzenia kopii");
 			manageDepartments.unlockDepartment(selectedDepartmentId);
-			return false;
+			throw new Exception("No free space left");
 		}
 
 		ArrayList<User> citizens = manageDepartments.getAllCitizens(selectedDepartmentId);

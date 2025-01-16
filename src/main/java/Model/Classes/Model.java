@@ -8,8 +8,22 @@ public abstract class Model {
 	private static int idCounterUs = 0;
 	private static int idCounterDep = 0;
 	private static int idCounterCop = 0;
+
+
 	protected int id;
 	protected LocalDateTime deleted_at;
+
+	public LocalDateTime getCreated_at() {
+		return created_at;
+	}
+
+	public static void resetIdCounters() {
+		idCounterApp = 0;
+		idCounterUs = 0;
+		idCounterDep = 0;
+		idCounterCop = 0;
+	}
+
 	protected LocalDateTime created_at;
 	protected LocalDateTime updated_at;
 	protected static final DBManager dbManager = DBManager.getInstance();
@@ -21,13 +35,17 @@ public abstract class Model {
 		this.deleted_at = null;
 	}
 
+	protected LocalDateTime getCurrentTime() {
+		return LocalDateTime.now();
+	}
+
 	public int getId() {
 		return id;
 	}
 
 	public boolean save() {
+		this.created_at = getCurrentTime();
 		dbManager.save(this);
-		this.updated_at = LocalDateTime.now();
 		return true;
 	}
 
@@ -40,7 +58,7 @@ public abstract class Model {
 		this.updated_at = LocalDateTime.now();
 	}
 
-	private void assignID() {
+	public void assignID() {
         switch(this) {
             case Application ignored -> this.id = idCounterApp++;
             case User ignored -> this.id = idCounterUs++;
