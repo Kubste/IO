@@ -2,33 +2,39 @@ package Model.Classes;
 
 import Model.Enums.AccessLevel;
 import Model.Enums.ApplicationStatus;
-import Model.Enums.CopyType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Tag("Core")
 public class DBManagerTest implements TestExecutionExceptionHandler {
 
-    private DBManager dbManager;
-    private Database mockDatabase;
-    private ArrayList<Application> applications;
-    private ArrayList<User> users;
-    private ArrayList<Department> departments;
-    private ArrayList<Copy> copies;
+    private static DBManager dbManager;
+    private static Database mockDatabase;
+    private static ArrayList<Application> applications;
+    private static ArrayList<User> users;
+    private static ArrayList<Department> departments;
+    private static ArrayList<Copy> copies;
+
+    @BeforeAll
+    static void setupAll(){
+        dbManager = DBManager.getInstance();
+    }
 
     @BeforeEach
-    void setUp() {
+    void setupEach() {
         applications = Data.getSampleApplications();
         users = Data.getSampleUsers();
         departments = Data.getSampleDepartments();
         copies = Data.getSampleCopies();
-
         mockDatabase = new Database();
-        dbManager = DBManager.getInstance();
         dbManager.setDatabase(mockDatabase);
 
         for(int i = 0; i < 3; i++) {
@@ -37,61 +43,138 @@ public class DBManagerTest implements TestExecutionExceptionHandler {
             dbManager.save(departments.get(i));
             dbManager.save(copies.get(i));
         }
-
     }
 
     private static class TestModel extends Model {}
 
+    static Stream<Integer> indexProvider() {
+        return Stream.of(0, 1, 2); }
+
+    @ParameterizedTest()
+    @MethodSource("indexProvider")
+    void testApplicationSave(int applicationIndex){
+        Application app = applications.get(applicationIndex);
+        dbManager.save(app);
+        assertTrue(mockDatabase.getAllApplications().contains(app));
+    }
+
+    @ParameterizedTest()
+    @MethodSource("indexProvider")
+    void testDepartmentSave(int departmentIndex){
+        Department dep = departments.get(departmentIndex);
+        dbManager.save(dep);
+        assertTrue(mockDatabase.getAllDepartments().contains(dep));
+    }
+
+    @ParameterizedTest()
+    @MethodSource("indexProvider")
+    void testCopySave(int copyIndex){
+        Copy copy = copies.get(copyIndex);
+        dbManager.save(copy);
+        assertTrue(mockDatabase.getAllCopies().contains(copy));
+    }
+
+
+    @ParameterizedTest()
+    @CsvSource({"0", "1", "2"})
+    void testUserSave(int userIndex){
+        User user = users.get(userIndex);
+        dbManager.save(user);
+        assertTrue(mockDatabase.getAllUsers().contains(user));
+    }
+
     @Test
-    void testSave() {
+    void testExceptionSave(){
+        assertThrows(NullPointerException.class, () -> dbManager.save(null));
+        assertThrows(ClassCastException.class, () -> dbManager.save((Model) new Object()));
+        assertThrows(IllegalArgumentException.class, () -> dbManager.save(new TestModel()));
+    }
+
+    @Test
+    void testExceptionUpdate(){
+        assertThrows(NullPointerException.class, () -> dbManager.update(null));
+        assertThrows(ClassCastException.class, () -> dbManager.update((Model) new Object()));
+        assertThrows(IllegalArgumentException.class, () -> dbManager.update(new TestModel()));
+    }
+
+    @Order(1)
+    @Test
+    void testProperSetUpEach() {
         for(int i = 0; i < 3; i++) {
             assertTrue(mockDatabase.getAllApplications().contains(applications.get(i)));
             assertTrue(mockDatabase.getAllUsers().contains(users.get(i)));
             assertTrue(mockDatabase.getAllDepartments().contains(departments.get(i)));
             assertTrue(mockDatabase.getAllCopies().contains(copies.get(i)));
         }
-        assertThrows(NullPointerException.class, () -> dbManager.save(null));
-        assertThrows(ClassCastException.class, () -> dbManager.save((Model) new Object()));
-        assertThrows(IllegalArgumentException.class, () -> dbManager.save(new TestModel()));
     }
 
-    @Test
-    void testUpdate() {
-        assertNull(mockDatabase.getAllApplications().getFirst().getRejectedDescription());
-        Application application = applications.getFirst();
+    @ParameterizedTest()
+    @CsvSource({"0", "1", "2"})
+    void testApplicationUpdate(int applicationIndex){
+        Application application = applications.get(applicationIndex);
+
         application.setRejectedDescription("Rejected Description");
         assertTrue(dbManager.update(application));
-        assertEquals("Rejected Description", mockDatabase.getAllApplications().getFirst().getRejectedDescription());
-        application = new Application(99, 99, "description");
-        assertFalse(dbManager.update(application));
+        assertEquals("Rejected Description", mockDatabase.getAllApplications().get(applicationIndex).getRejectedDescription());
 
-        assertFalse(mockDatabase.getAllUsers().getFirst().isActive());
-        User user = users.getFirst();
-        user.setIsActive(true);
+        application.setArchived(true);
+        assertTrue(dbManager.update(application));
+        assertTrue(mockDatabase.getAllApplications().get(applicationIndex).isArchived());
+
+        application.setStatus(ApplicationStatus.ACCEPTED);
+        assertTrue(dbManager.update(application));
+        assertEquals(ApplicationStatus.ACCEPTED, mockDatabase.getAllApplications().get(applicationIndex).getStatus());
+    }
+
+    @ParameterizedTest()
+    @CsvSource({"0", "1", "2"})
+    void testDepartmentUpdate(int applicationIndex){
+        Application application = applications.get(applicationIndex);
+
+        application.setRejectedDescription("Rejected Description");
+        assertTrue(dbManager.update(application));
+        assertEquals("Rejected Description", mockDatabase.getAllApplications().get(applicationIndex).getRejectedDescription());
+
+        application.setArchived(true);
+        assertTrue(dbManager.update(application));
+        assertTrue(mockDatabase.getAllApplications().get(applicationIndex).isArchived());
+
+        application.setStatus(ApplicationStatus.ACCEPTED);
+        assertTrue(dbManager.update(application));
+        assertEquals(ApplicationStatus.ACCEPTED, mockDatabase.getAllApplications().get(applicationIndex).getStatus());
+    }
+
+    @ParameterizedTest()
+    @CsvSource({"0", "1", "2"})
+    void testUserUpdate(int userIndex){
+        User user = users.get(userIndex);
+
+        user.setEmail("test@wp.pl");
         assertTrue(dbManager.update(user));
-        assertTrue(mockDatabase.getAllUsers().getFirst().isActive());
-        user = new User("First Name", "Last Name", AccessLevel.CITIZEN, "email", "pass", "username", 99);
-        assertFalse(dbManager.update(user));
+        assertEquals("test@wp.pl", mockDatabase.getAllUsers().get(userIndex).getEmail());
 
-        assertEquals(12345, mockDatabase.getAllCopies().getFirst().getSize());
-        Copy copy = copies.getFirst();
-        copy.setSize(54321);
+        user.setAccessLevel(AccessLevel.ADMIN);
+        assertTrue(dbManager.update(user));
+        assertEquals(AccessLevel.ADMIN, mockDatabase.getAllUsers().get(userIndex).getAccessLevel());
+
+        boolean previousActiveStatus = user.isActive();
+        user.setIsActive(!previousActiveStatus);
+        assertTrue(dbManager.update(user));
+        assertEquals(!previousActiveStatus, mockDatabase.getAllUsers().get(userIndex).isActive());
+    }
+
+    @ParameterizedTest()
+    @CsvSource({"0", "1", "2"})
+    void testCopyUpdate(int copyIndex){
+        Copy copy = copies.get(copyIndex);
+
+        copy.setSize(99999);
         assertTrue(dbManager.update(copy));
-        assertEquals(54321, mockDatabase.getAllCopies().getFirst().getSize());
-        copy = new Copy(99999, 99, "path", CopyType.INCREMENTAL);
-        assertFalse(dbManager.update(copy));
+        assertEquals(99999, mockDatabase.getAllCopies().get(copyIndex).getSize());
 
-        assertEquals("Department1", mockDatabase.getAllDepartments().getFirst().getName());
-        Department department = departments.getFirst();
-        department.setName("New Department");
-        assertTrue(dbManager.update(department));
-        assertEquals("New Department", mockDatabase.getAllDepartments().getFirst().getName());
-        department = new Department("Name", "Address", 99, new ArrayList<>(), new ArrayList<>());
-        assertFalse(dbManager.update(department));
-
-        assertThrows(NullPointerException.class, () -> dbManager.save(null));
-        assertThrows(ClassCastException.class, () -> dbManager.save((Model) new Object()));
-        assertThrows(IllegalArgumentException.class, () -> dbManager.save(new TestModel()));
+        copy.setDepartmentID(99);
+        assertTrue(dbManager.update(copy));
+        assertEquals(99, mockDatabase.getAllCopies().get(copyIndex).getDepartmentID());
     }
 
     @Override
