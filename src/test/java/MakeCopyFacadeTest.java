@@ -1,5 +1,3 @@
-package Model.Classes;
-
 import Model.Classes.*;
 import Model.Enums.AccessLevel;
 import Model.Enums.CopyType;
@@ -7,35 +5,26 @@ import Model.Facades.manageCopies;
 import Model.Facades.manageDepartments;
 import Model.Facades.exposeApplications;
 import Provider.Facades.makeCopy;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+
+@Tag("Facades")
 public class MakeCopyFacadeTest {
 
     private manageDepartments mockManageDepartments;
     private manageCopies mockManageCopies;
     private exposeApplications mockExposeApplications;
 
-
-    private class MakeCopyConcrete extends makeCopy {}
-
-
-    private MakeCopyConcrete makeCopyConcrete;
+    private static MockedStatic<manageDepartments> mockedManageDepartments;
+    private static MockedStatic<makeCopy> mockedMakeCopy;
 
     private static DBManager dbManager;
     private static Database mockDatabase;
@@ -43,40 +32,56 @@ public class MakeCopyFacadeTest {
     private static ArrayList<Copy> copies;
     private ArrayList<Department> departments;
 
-    private static MockedStatic<manageDepartments> mockedManageDepartments;
+    private static class MakeCopyConcrete extends makeCopy {}
 
 
     @BeforeAll
-    static void setupAll(){
+    static void setupAll() {
         dbManager = DBManager.getInstance();
+
         mockedManageDepartments = Mockito.mockStatic(manageDepartments.class);
+        mockedMakeCopy = Mockito.mockStatic(makeCopy.class);
     }
 
     @BeforeEach
     void setupEach() {
+        mockedManageDepartments.reset();
+        mockedMakeCopy.reset();
 
         Model.resetIdCounters();
         copies = Data.getSampleCopies();
         mockDatabase = new Database();
         dbManager.setDatabase(mockDatabase);
         departments = Data.getSampleDepartments();
-        users  = Data.getSampleUsers();
+        users = Data.getSampleUsers();
 
         Model.resetIdCounters();
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             dbManager.save(departments.get(i));
         }
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             dbManager.save(copies.get(i));
         }
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             dbManager.save(users.get(i));
         }
+    }
 
+    @AfterEach
+    void tearDownEach() {
+        mockedManageDepartments.reset();
+        mockedMakeCopy.reset();
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        mockedManageDepartments.close();
+        mockedMakeCopy.close();
     }
 
     @Test
     void testCheckFreeSpace() {
+        mockedMakeCopy.when(makeCopy::checkFreeSpace).thenCallRealMethod();
         boolean isFreeSpace = makeCopy.checkFreeSpace();
         assertTrue(isFreeSpace, "The disk should have sufficient space.");
     }
@@ -86,27 +91,40 @@ public class MakeCopyFacadeTest {
         int userID = 1;
         String message = "Test Message";
 
+
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalSystemOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        makeCopy.sendMail(userID, message);
+        try(MockedStatic<MakeCopyFacadeTest.MakeCopyConcrete> newMock  = Mockito.mockStatic(MakeCopyConcrete.class)){
+            newMock.when(() -> makeCopy.sendMail(userID, message)).thenCallRealMethod();
+            try {
+                MakeCopyConcrete.sendMail(userID, message);
+                String output = outputStream.toString();
+                assertTrue(output.contains(message), "The message should be printed to System.out.");
+            } finally {
+                System.setOut(originalSystemOut);
+            }
 
-        String output = outputStream.toString();
-        assertTrue(output.contains(message), "The message should be printed to System.out.");
+        }
 
-        System.setOut(originalSystemOut);
     }
 
     @Test
     @Order(1)
-    void noAssignedDepartmentsTest(){
+    void noAssignedDepartmentsTest() throws Exception {
+        int userId = 1;
+        int selectedDepartmentId = 3;
+        CopyType selectedCopyType = CopyType.FULL;
 
-        mockedManageDepartments.when(() -> manageDepartments.getAssignedDepartments(1))
+        mockedManageDepartments.when(() -> manageDepartments.getAssignedDepartments(userId))
                 .thenReturn(new ArrayList<>());
 
-        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
-            makeCopy.startCreateCopy(1, 1, CopyType.FULL);
+        mockedMakeCopy.when(() -> makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType))
+                .thenCallRealMethod();
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType);
         });
 
         assertEquals("Provided department is not assigned to this user!", exception.getMessage());
@@ -115,26 +133,25 @@ public class MakeCopyFacadeTest {
     @Test
     @Order(2)
     void noFreeSpaceTest() throws Exception {
-
         int userId = 1;
         int selectedDepartmentId = 3;
         CopyType selectedCopyType = CopyType.FULL;
 
-        // Mock manageDepartments.getAssignedDepartments to return valid departments
         ArrayList<Department> assignedDepartments = new ArrayList<>();
-        assignedDepartments.add(new Department("test","addr",1,new ArrayList<>(),new ArrayList<>()));
+        assignedDepartments.add(new Department("test", "addr", 1, new ArrayList<>(), new ArrayList<>()));
+
         mockedManageDepartments.when(() -> manageDepartments.getAssignedDepartments(userId))
                 .thenReturn(assignedDepartments);
 
-        mockStatic(makeCopy.class);
-        when(makeCopy.checkFreeSpace()).thenReturn(false);
-        when(makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType)).thenCallRealMethod();
+        mockedMakeCopy.when(makeCopy::checkFreeSpace).thenReturn(false);
+        mockedMakeCopy.when(() -> makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType))
+                .thenCallRealMethod();
 
         Exception exception = assertThrows(Exception.class, () -> {
             makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType);
         });
-        assertEquals("No free space left", exception.getMessage());
 
+        assertEquals("No free space left", exception.getMessage());
     }
 
     @Test
@@ -151,28 +168,28 @@ public class MakeCopyFacadeTest {
                 .thenReturn(assignedDepartments);
 
         ArrayList<User> citizens = new ArrayList<>();
-        citizens.add(new User("citizne","11", AccessLevel.CITIZEN,"1@wp.pl","password","user1",3));
+        citizens.add(new User("citizen", "11", AccessLevel.CITIZEN, "1@wp.pl", "password", "user1", 3));
         ArrayList<User> officials = new ArrayList<>();
-        officials.add(new User("citizne","11", AccessLevel.OFFICIAL,"1@wp.pl","password","user1",3));
+        officials.add(new User("official", "11", AccessLevel.OFFICIAL, "1@wp.pl", "password", "user2", 3));
         ArrayList<Application> applications = new ArrayList<>();
-        applications.add(new Application(2,3,"description"));
+        applications.add(new Application(2, 3, "description"));
 
         mockedManageDepartments.when(() -> manageDepartments.getAllCitizens(selectedDepartmentId))
                 .thenReturn(citizens);
         mockedManageDepartments.when(() -> manageDepartments.getAllOfficials(selectedDepartmentId))
                 .thenReturn(officials);
-        mockStatic(exposeApplications.class);
-        when(exposeApplications.getApplicationsFromDepartment(selectedDepartmentId))
+
+        MockedStatic<exposeApplications> mockedExposeApplications = Mockito.mockStatic(exposeApplications.class);
+        mockedExposeApplications.when(() -> exposeApplications.getApplicationsFromDepartment(selectedDepartmentId))
                 .thenReturn(applications);
 
-        mockStatic(makeCopy.class);
-        when(makeCopy.checkFreeSpace()).thenReturn(true);
-        when(makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType)).thenCallRealMethod();
+        mockedMakeCopy.when(makeCopy::checkFreeSpace).thenReturn(true);
+        mockedMakeCopy.when(() -> makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType))
+                .thenCallRealMethod();
+
         boolean result = makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType);
-
         assertTrue(result, "The method should return true on successful copy creation.");
+
+        mockedExposeApplications.close();
     }
-
-
-
 }

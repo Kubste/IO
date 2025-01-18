@@ -40,7 +40,7 @@ public abstract class makeCopy {
 
 
 		if(!assignedDepartmentIds.contains(selectedDepartmentId)){
-			throw new NoSuchElementException("Provided department is not assigned to this user!");
+			throw new Exception("Provided department is not assigned to this user!");
 		}
 
 		manageDepartments.lockDepartment(selectedDepartmentId);
