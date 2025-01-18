@@ -1,18 +1,11 @@
 package Model.Classes;
 
-import Model.Enums.AccessLevel;
-import Model.Enums.ApplicationStatus;
 import Model.Enums.CopyType;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -47,7 +40,6 @@ public class CopyTest {
         for(int i = 0; i < 3; i++) {
             dbManager.save(copies.get(i));
         }
-
     }
 
     static Stream<Integer> indexProvider() {
@@ -71,8 +63,6 @@ public class CopyTest {
 
     }
 
-
-
     @Order(1)
     @Test
     void testProperSetUpEach() {
@@ -81,5 +71,4 @@ public class CopyTest {
             assertTrue(mockDatabase.getAllCopies().contains(copies.get(i)));
         }
     }
-
 }
