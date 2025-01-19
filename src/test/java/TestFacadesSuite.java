@@ -3,7 +3,7 @@ import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.IncludeTags;
 
 @Suite
-@SelectPackages("Model.Classes")
+@SelectPackages("Model.Facades")
 @IncludeTags("Facades")
 public class TestFacadesSuite {
 }

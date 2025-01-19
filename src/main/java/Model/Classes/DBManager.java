@@ -69,7 +69,6 @@ public class DBManager {
             }case Copy copy -> {
                 ArrayList<Copy> copies = database.getAllCopies();
                 ArrayList<Department> departments = database.getAllDepartments();
-
                 copies.add(copy);
                 database.setAllCopies(copies);
             }case Department department -> {

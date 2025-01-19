@@ -1,5 +1,9 @@
-package Model.Classes;
+package Model;
 
+import Model.Classes.Application;
+import Model.Classes.Copy;
+import Model.Classes.Department;
+import Model.Classes.User;
 import Model.Enums.AccessLevel;
 import Model.Enums.CopyType;
 
@@ -10,8 +14,8 @@ public class Data {
     public static ArrayList<User> getSampleUsers() {
         ArrayList<User> users = new ArrayList<>();
         users.add(new User("Jan", "Kowalski", AccessLevel.CITIZEN, "123@gmail.com", "password", "username", 1));
-        users.add(new User("Jakub", "Nowak", AccessLevel.OFFICIAL, "321@gmail.com", "password1", "username1", 2));
-        users.add(new User("Jan", "Kowalski", AccessLevel.ADMIN, "123@gmail.com", "password2", "username2", 3));
+        users.add(new User("Jakub", "Nowak", AccessLevel.OFFICIAL, "456@gmail.com", "password1", "username1", 2));
+        users.add(new User("Jan", "Kowalski", AccessLevel.ADMIN, "789@gmail.com", "password2", "username2", 3));
 
         return users;
     }
@@ -39,7 +43,6 @@ public class Data {
         departments.add(new Department("Department1", "Address1", 1, new ArrayList<>(), new ArrayList<>()));
         departments.add(new Department("Department2", "Address2", 2, new ArrayList<>(), new ArrayList<>()));
         departments.add(new Department("Department3", "Address3", 3, new ArrayList<>(), new ArrayList<>()));
-
         return departments;
     }
 }

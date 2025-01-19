@@ -103,6 +103,7 @@ public class User extends Model implements activeUser {
 
 	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
+		this.save();
 	}
 
 	@Override

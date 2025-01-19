@@ -17,6 +17,10 @@ public abstract class Model {
 		return created_at;
 	}
 
+	public LocalDateTime getUpdated_at() {
+		return updated_at;
+	}
+
 	public static void resetIdCounters() {
 		idCounterApp = 0;
 		idCounterUs = 0;
@@ -52,6 +56,12 @@ public abstract class Model {
 	public boolean delete() {
 		this.deleted_at = LocalDateTime.now();
 		return dbManager.delete(this);
+	}
+
+	public boolean update() {
+		this.updated_at = LocalDateTime.now();
+		dbManager.update(this);
+		return true;
 	}
 
 	public void setUpdated_at() {

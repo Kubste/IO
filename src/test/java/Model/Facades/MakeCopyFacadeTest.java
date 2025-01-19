@@ -1,21 +1,20 @@
+package Model.Facades;
+
+import Model.Data;
 import Model.Classes.*;
 import Model.Enums.AccessLevel;
 import Model.Enums.CopyType;
-import Model.Facades.manageCopies;
-import Model.Facades.manageDepartments;
-import Model.Facades.exposeApplications;
 import Provider.Facades.makeCopy;
 import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Tag("MakeCopyFacade")
 @Tag("Facades")
 public class MakeCopyFacadeTest {
 
@@ -33,7 +32,6 @@ public class MakeCopyFacadeTest {
     private ArrayList<Department> departments;
 
     private static class MakeCopyConcrete extends makeCopy {}
-
 
     @BeforeAll
     static void setupAll() {

@@ -1,8 +1,10 @@
 package Model.Classes;
 
+import Model.Data;
 import Model.Enums.AccessLevel;
 import Model.Enums.ApplicationStatus;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,10 +12,16 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.SimpleFormatter;
 import java.util.stream.Stream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+@ExtendWith(DBManagerTest.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Tag("Core")
+@Tag("Classes")
+@Tag("DBManager")
 public class DBManagerTest implements TestExecutionExceptionHandler {
 
     private static DBManager dbManager;
@@ -22,10 +30,14 @@ public class DBManagerTest implements TestExecutionExceptionHandler {
     private static ArrayList<User> users;
     private static ArrayList<Department> departments;
     private static ArrayList<Copy> copies;
+    private static final Logger LOGGER = Logger.getLogger(DBManagerTest.class.getName());
 
     @BeforeAll
     static void setupAll(){
         dbManager = DBManager.getInstance();
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new SimpleFormatter());
+        LOGGER.addHandler(consoleHandler);
     }
 
     @BeforeEach
@@ -177,8 +189,23 @@ public class DBManagerTest implements TestExecutionExceptionHandler {
         assertEquals(99, mockDatabase.getAllCopies().get(copyIndex).getDepartmentID());
     }
 
+    @Tag("exceptionHandlingTest")
+    @Test
+    void handleTestExecutionExceptionTest() {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public void handleTestExecutionException(ExtensionContext extensionContext, Throwable throwable) throws Throwable {
+        String testMethodName = extensionContext.getTestMethod().get().getName();
+        String testClassName = extensionContext.getTestClass().get().getSimpleName();
 
+        LOGGER.log(Level.SEVERE, "Test " + testClassName + "." + testMethodName + " wyrzucil wyjatek: " + throwable.getMessage(), throwable);
+        LOGGER.log(Level.INFO, "Szczegoly testu: " + extensionContext.getDisplayName());
+
+        if(throwable instanceof UnsupportedOperationException) {
+            LOGGER.log(Level.WARNING, "Nastapilo poprawne wykrycie wyjatku");
+        }
+        else throw throwable;
     }
 }
