@@ -192,7 +192,7 @@ public class DBManagerTest implements TestExecutionExceptionHandler {
     @Tag("exceptionHandlingTest")
     @Test
     void handleTestExecutionExceptionTest() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Wyjatek testowy");
     }
 
     @Override

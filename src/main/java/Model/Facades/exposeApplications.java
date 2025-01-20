@@ -43,7 +43,8 @@ public abstract class exposeApplications {
 		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
                 filter(app -> app.getId() == applicationID).findFirst().orElse(null));
 		application.setAcceptParams();
-		DBManager.getInstance().update(application);
+		application.update();
+		//DBManager.getInstance().update(application);
 	}
 
 	/**
@@ -54,7 +55,8 @@ public abstract class exposeApplications {
 		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
                 filter(app -> app.getId() == applicationID).findFirst().orElse(null));
 		application.setRejectParams(rejectedDescription);
-		DBManager.getInstance().update(application);
+		application.update();
+		//DBManager.getInstance().update(application);
 	}
 
 

@@ -7,7 +7,6 @@ import Model.Classes.User;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.MockedStatic;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,13 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("activeUser")
 public class ActiveUserTest {
 
-    private static MockedStatic<activeUser> mockedActiveUser;
     private static ArrayList<User> users;
 
     @BeforeAll
     static void setupAll() {
         DBManager dbManager = DBManager.getInstance();
-        //mockedActiveUser = Mockito.mockStatic(activeUser.class);
         Database mockDatabase = new Database();
         dbManager.setDatabase(mockDatabase);
         users = Data.getSampleUsers();
@@ -30,11 +27,6 @@ public class ActiveUserTest {
         for(int i = 0; i < 3; i++) {
             dbManager.save(users.get(i));
         }
-    }
-
-    @BeforeEach
-    void setup() {
-        //mockedActiveUser.reset();
     }
 
     @Order(1)

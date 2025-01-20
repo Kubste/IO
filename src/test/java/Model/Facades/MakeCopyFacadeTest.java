@@ -18,13 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("Facades")
 public class MakeCopyFacadeTest {
 
-    private manageDepartments mockManageDepartments;
-    private manageCopies mockManageCopies;
-    private exposeApplications mockExposeApplications;
-
     private static MockedStatic<manageDepartments> mockedManageDepartments;
     private static MockedStatic<makeCopy> mockedMakeCopy;
-
     private static DBManager dbManager;
     private static Database mockDatabase;
     private static ArrayList<User> users;
@@ -89,7 +84,6 @@ public class MakeCopyFacadeTest {
         int userID = 1;
         String message = "Test Message";
 
-
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalSystemOut = System.out;
         System.setOut(new PrintStream(outputStream));
@@ -103,9 +97,7 @@ public class MakeCopyFacadeTest {
             } finally {
                 System.setOut(originalSystemOut);
             }
-
         }
-
     }
 
     @Test

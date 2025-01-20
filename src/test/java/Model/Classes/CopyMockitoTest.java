@@ -8,20 +8,20 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import java.time.Duration;
+import org.mockito.Mockito;
+import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.logging.Logger;
 
 @ExtendWith(DBManagerTest.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Tag("Classes")
-@Tag("Copy")
-public class CopyTest implements TestExecutionExceptionHandler {
+@Tag("CopyMockito")
+public class CopyMockitoTest implements TestExecutionExceptionHandler {
 
     private static DBManager dbManager;
     private static Database mockDatabase;
@@ -30,7 +30,7 @@ public class CopyTest implements TestExecutionExceptionHandler {
     private static ArrayList<User> users;
     private ArrayList<Department> departments;
     private static LocalDateTime testTime;
-    private static final Logger LOGGER = Logger.getLogger(CopyTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CopyMockitoTest.class.getName());
 
     @BeforeAll
     static void setupAll(){
@@ -67,15 +67,16 @@ public class CopyTest implements TestExecutionExceptionHandler {
     @ParameterizedTest()
     @MethodSource("indexProvider")
     void testProperSaveCopy(int departmentIndex){
-        Copy copy = new Copy(1000, departmentIndex, "C:\\User\\copies\\copy1.txt", CopyType.FULL);
+        Copy newCopy = Mockito.spy(new Copy(1000, departmentIndex,"C:\\User\\copies\\copy1.txt", CopyType.FULL));
 
-        testTime = LocalDateTime.now();
-        copy.save();
-        assertTrue(Duration.between(testTime, copy.getUpdated_at()).toMillis() < 10);
-        assertTrue(mockDatabase.getAllCopies().contains(copy));
+        Mockito.doReturn(testTime).when(newCopy).getCurrentTime();
+
+        newCopy.save();
+        assertEquals(testTime, newCopy.getCreated_at());
+        assertTrue(mockDatabase.getAllCopies().contains(newCopy));
 
         int max_id = mockDatabase.getAllCopies().stream().map(Copy::getId).max(Comparator.naturalOrder()).get().intValue();
-        assertEquals(max_id, copy.getId());
+        assertEquals(max_id, newCopy.getId());
     }
 
     @ParameterizedTest
@@ -84,9 +85,12 @@ public class CopyTest implements TestExecutionExceptionHandler {
         Copy copy = mockDatabase.getAllCopies().get(copyIndex);
         copy.setSize(500);
 
-        testTime = LocalDateTime.now();
-        copy.update();
-        assertTrue(Duration.between(testTime, copy.getUpdated_at()).toMillis() < 10);
+        Copy spyCopy = Mockito.spy(copy);
+        Mockito.doReturn(testTime).when(spyCopy).getUpdated_at();
+
+        spyCopy.update();
+
+        assertEquals(testTime, spyCopy.getUpdated_at());
         assertEquals(500, mockDatabase.getAllCopies().get(copyIndex).getSize());
         assertTrue(mockDatabase.getAllCopies().contains(copy));
     }
@@ -100,10 +104,12 @@ public class CopyTest implements TestExecutionExceptionHandler {
         application.setAcceptParams();
         application.setRejectedDescription("Rejected");
 
-        testTime = LocalDateTime.now();
-        application.update();
+        Application spyApplication = Mockito.spy(application);
+        Mockito.doReturn(testTime).when(spyApplication).getUpdated_at();
 
-        assertTrue(Duration.between(testTime, application.getUpdated_at()).toMillis() < 10);
+        spyApplication.update();
+
+        assertEquals(testTime, spyApplication.getUpdated_at());
         assertEquals("Rejected", mockDatabase.getAllApplications().get(applicationIndex).getRejectedDescription());
         assertTrue(mockDatabase.getAllApplications().get(applicationIndex).isArchived());
         assertTrue(mockDatabase.getAllApplications().contains(application));
@@ -115,10 +121,12 @@ public class CopyTest implements TestExecutionExceptionHandler {
         User user = mockDatabase.getAllUsers().get(userIndex);
         user.setUsername("testUser");
 
-        testTime = LocalDateTime.now();
-        user.update();
+        User spyUser = Mockito.spy(user);
+        Mockito.doReturn(testTime).when(spyUser).getUpdated_at();
 
-        assertTrue(Duration.between(testTime, user.getUpdated_at()).toMillis() < 10);
+        spyUser.update();
+
+        assertEquals(testTime, spyUser.getUpdated_at());
         assertEquals("testUser", mockDatabase.getAllUsers().get(userIndex).getUsername());
         assertTrue(mockDatabase.getAllUsers().contains(user));
     }
@@ -129,10 +137,12 @@ public class CopyTest implements TestExecutionExceptionHandler {
         Department department = mockDatabase.getAllDepartments().get(departmentIndex);
         department.setName("testDepartment");
 
-        testTime = LocalDateTime.now();
-        department.update();
+        Department spyDepartment = Mockito.spy(department);
+        Mockito.doReturn(testTime).when(spyDepartment).getUpdated_at();
 
-        assertTrue(Duration.between(testTime, department.getUpdated_at()).toMillis() < 10);
+        spyDepartment.update();
+
+        assertEquals(testTime, spyDepartment.getUpdated_at());
         assertEquals("testDepartment", mockDatabase.getAllDepartments().get(departmentIndex).getName());
         assertTrue(mockDatabase.getAllDepartments().contains(department));
     }
