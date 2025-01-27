@@ -1,0 +1,8 @@
+---
+Suite
+---
+!1 Zestaw testow ${PAGE_NAME}
+!contents -R2 -g -p -f -h
+
+"Testy akceptacyjne systemu ewidencji"
+!path ..\target\classes

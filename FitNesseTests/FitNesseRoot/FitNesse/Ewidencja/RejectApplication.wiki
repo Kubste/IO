@@ -1,0 +1,9 @@
+---
+Test
+---
+!| testyfitnessefixture.TestRejectApplication |
+| applicationID | rejectedDescription     | rejectApplication? |
+| 1             | "Duplicate application" | true               |
+| 2             | "Invalid data"          | true               |
+| 3             | ""                      | false              |
+| 999           | "Unknown application"   | false              |

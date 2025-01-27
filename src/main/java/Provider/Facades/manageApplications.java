@@ -19,6 +19,6 @@ public interface manageApplications {
 	 * @param id
 	 * @param rejectDescription
 	 */
-	void rejectApplication(int id, String rejectDescription);
+	boolean rejectApplication(int id, String rejectDescription) throws IllegalAccessException;
 
 }

@@ -5,6 +5,8 @@ import Model.Classes.DBManager;
 import Model.Facades.exposeApplications;
 import fit.ColumnFixture;
 
+import java.util.Objects;
+
 public class RejectApplicationTest extends ColumnFixture {
 
     public int applicationID;
@@ -14,21 +16,39 @@ public class RejectApplicationTest extends ColumnFixture {
         try {
             exposeApplications.rejectApplication(applicationID, rejectedDescription);
 
-            Application application = DBManager.getInstance().getDatabase().getAllApplications().stream()
-                    .filter(a -> a.getId() == applicationID)
-                    .findFirst()
-                    .orElse(null);
+            Application application = getApplication();
 
             if(application == null) return false;
 
-            boolean isArchivedStatusCorrect = application.isArchived();
-            boolean isDescriptionCorrect = rejectedDescription.equals(application.getRejectedDescription());
-            boolean isConsiderationDateSet = application.getConsiderationDate() != null;
-
-            return isArchivedStatusCorrect&& isDescriptionCorrect && isConsiderationDateSet;
+            return isArchivedStatusCorrect() && isDescriptionCorrect() && isConsiderationDateSet();
 
         } catch (NullPointerException | IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public boolean isArchivedStatusCorrect() {
+        Application application = getApplication();
+        if(application != null) return application.isArchived();
+        else return false;
+    }
+
+    public boolean isDescriptionCorrect() {
+        Application application = getApplication();
+        if(application != null) return Objects.equals(rejectedDescription, application.getRejectedDescription());
+        else return false;
+    }
+
+    public boolean isConsiderationDateSet() {
+        Application application = getApplication();
+        if(application != null) return application.getConsiderationDate() != null;
+        else return false;
+    }
+
+    private Application getApplication() {
+        return  DBManager.getInstance().getDatabase().getAllApplications().stream()
+                .filter(a -> a.getId() == applicationID)
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -3,10 +3,15 @@ package FitNesse;
 import Model.Classes.Application;
 import Model.Classes.DBManager;
 import Model.Classes.Database;
+import Model.Classes.User;
+import Model.Enums.AccessLevel;
+import Provider.Classes.ApplicationsProvider;
 import fit.Fixture;
 import java.util.ArrayList;
 
 public class SetUp extends Fixture {
+
+    static ApplicationsProvider applicationsProvider;
 
     public SetUp() {
         DBManager dbManager = DBManager.getInstance();
@@ -18,5 +23,8 @@ public class SetUp extends Fixture {
         applications.add(new Application(2, 2, "description2"));
 
         dbManager.getDatabase().setAllApplications(applications);
+
+        applicationsProvider = new ApplicationsProvider(new User("John", "Smith", AccessLevel.OFFICIAL, "123@gmail.com",
+                "password", "username", 3));
     }
 }

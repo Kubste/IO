@@ -38,7 +38,7 @@ public class ApplicationsView extends View {
 		this.reset();
 	}
 
-	private void rejectApplication() {
+	private void rejectApplication() throws IllegalAccessException {
 		Scanner scanner = new Scanner(System.in);
 		if(!this.assignedApplicationIds.contains(this.selectedApplicationId)) {
 			System.out.println("Nie wybrano wniosku");
@@ -47,12 +47,11 @@ public class ApplicationsView extends View {
 		System.out.print("Podaj tresc odmowy: ");
 		String rejectDescription = scanner.nextLine();
 		provider.rejectApplication(selectedApplicationId, rejectDescription);
-		this.provider.sendMail(this.provider.getApplicant(this.selectedApplicationId), "Wniosek odrzucony, uzasadnienie odrzucenia: " + rejectDescription);
 		System.out.println("Wniosek zostal odrzucony");
 		this.reset();
 	}
 
-	private void callOperation(int choice) {
+	private void callOperation(int choice) throws IllegalAccessException {
 		switch(choice) {
 			case 1 -> chooseApplication();
 			case 2 -> showApplication();
@@ -96,7 +95,7 @@ public class ApplicationsView extends View {
 	}
 
 	@Override
-	public void render() {
+	public void render() throws IllegalAccessException {
 		System.out.println("\nZalogowany uzytkownik: "+this.provider.getLoggedUserFullName());
 		while(true) {
 			System.out.println("\n\nWidok wnioskow\n");

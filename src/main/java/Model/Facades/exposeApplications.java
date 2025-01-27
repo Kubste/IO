@@ -51,12 +51,12 @@ public abstract class exposeApplications {
 	 * 
 	 * @param applicationID
 	 */
-	public static boolean rejectApplication(int applicationID, String rejectedDescription){
+	public static boolean rejectApplication(int applicationID, String rejectedDescription) {
 		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
                 filter(app -> app.getId() == applicationID && !app.isArchived()).findFirst().orElse(null));
 
-		if(rejectedDescription == null) throw new IllegalArgumentException("Rejected description is null");
-		if(rejectedDescription.isEmpty()) throw new IllegalArgumentException("Rejected description is empty");
+		if(rejectedDescription == null) throw new IllegalArgumentException("Uzasadnienie odrzucenia nie moze miec wartosci: NULL");
+		if(rejectedDescription.trim().isEmpty()) throw new IllegalArgumentException("Uzasadnienie odrzucenia nie moze byc puste");
 
 		application.setRejectParams(rejectedDescription);
 		application.update();

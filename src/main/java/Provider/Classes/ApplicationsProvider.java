@@ -2,17 +2,22 @@ package Provider.Classes;
 
 import Model.Classes.Application;
 import Model.Classes.User;
+import Model.Enums.AccessLevel;
 import Provider.Facades.listApplications;
 import Provider.Facades.manageApplications;
 import View.Classes.ApplicationsView;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 import Model.Facades.exposeApplications;
 
 public class ApplicationsProvider extends Provider implements manageApplications, listApplications {
 
-
+	private static final Logger logger = Logger.getLogger(ApplicationsProvider.class.getName());
 	private final ArrayList<Application> assignedApplications;
 
 	public ApplicationsProvider(User loggedUser) {
@@ -55,12 +60,22 @@ public class ApplicationsProvider extends Provider implements manageApplications
 	}
 
 	@Override
-	public void rejectApplication(int id, String rejectDescription) {
+	public boolean rejectApplication(int id, String rejectDescription) throws IllegalAccessException {
 		Optional<Application> application = this.assignedApplications.stream()
 				.filter(app -> app.getId() == id)
 				.findFirst();
 
-		exposeApplications.rejectApplication(id, rejectDescription);
+		try {
+			if(loggedUser.getAccessLevel() != AccessLevel.OFFICIAL) throw new IllegalAccessException();
+			exposeApplications.rejectApplication(id, rejectDescription);
+			this.sendMail(this.getApplicant(id), "Wniosek odrzucony, uzasadnienie odrzucenia: " + rejectDescription);
+		} catch(Exception ex) {
+			logger.warning("\n\nOdrzucenie wniosku zakonczone niepowodzeniem\nNumer ID wniosku: " + id + " Numer ID urzednika: " + this.loggedUser.getId() + " Data: " + LocalDateTime.now());
+			throw ex;
+		}
+
+		logger.info("\n\nOdrzucenie wniosku zakonczone powodzeniem\nNumer ID wniosku: " + id + " Numer ID urzednika: " + this.loggedUser.getId() + " Data: " + LocalDateTime.now());
+		return true;
 	}
 
 	public int getApplicant(int applicationId) {
@@ -82,4 +97,12 @@ public class ApplicationsProvider extends Provider implements manageApplications
 
         return application.filter(value -> !value.isArchived()).isPresent();
     }
+
+	public AccessLevel getLoggedUserAccessLevel() {
+		return loggedUser.getAccessLevel();
+	}
+
+	public void setLoggedUserAccess(AccessLevel accessLevel) {
+		this.loggedUser.setAccessLevel(accessLevel);
+	}
 }
