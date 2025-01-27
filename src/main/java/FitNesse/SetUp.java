@@ -5,13 +5,18 @@ import Model.Classes.DBManager;
 import Model.Classes.Database;
 import Model.Classes.User;
 import Model.Enums.AccessLevel;
+import Model.Facades.manageDepartments;
 import Provider.Classes.ApplicationsProvider;
 import Model.Classes.*;
 import Model.Enums.AccessLevel;
+import fit.ColumnFixture;
 import fit.Fixture;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class SetUp extends Fixture {
+public class SetUp extends ColumnFixture {
 
     static ApplicationsProvider applicationsProvider;
 
@@ -28,11 +33,20 @@ public class SetUp extends Fixture {
         ArrayList<User> citizens = new ArrayList<>();
         ArrayList<User> officials = new ArrayList<>();
         for(int i =0; i < 5; i++){
-            officials.add(new User("Test", "Test", AccessLevel.OFFICIAL,"test@wp.pl","password","username",1));
+            officials.add(new User("Test", "Test", AccessLevel.ADMIN,"test@wp.pl","password","username",1));
         }
         for(int i =0; i < 5; i++){
             citizens.add(new User("Test", "Test", AccessLevel.CITIZEN,"test@wp.pl","password","username",1));
         }
+
+        HashSet<Integer> departmentIDs = new HashSet<>();
+        departmentIDs.add(0);
+        officials.get(1).setAssignedDepartmentsIDs(departmentIDs);
+
+        HashSet<Integer> departmentIDs1 = new HashSet<>();
+        departmentIDs1.add(1);
+        departmentIDs1.add(2);
+        officials.get(3).setAssignedDepartmentsIDs(departmentIDs1);
 
 
         ArrayList<Department> departments = new ArrayList<>();
@@ -47,5 +61,6 @@ public class SetUp extends Fixture {
         dbManager.getDatabase().setAllUsers(citizens);
         dbManager.getDatabase().setAllUsers(officials);
         dbManager.getDatabase().setAllDepartments(departments);
+
     }
 }
