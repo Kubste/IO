@@ -20,7 +20,12 @@ public class RejectApplicationTest extends ColumnFixture {
 
             if(application == null) return false;
 
-            return isArchivedStatusCorrect() && isDescriptionCorrect() && isConsiderationDateSet();
+
+            boolean isArchivedStatusCorrect = application.isArchived();
+            boolean isDescriptionCorrect = rejectedDescription.equals(application.getRejectedDescription());
+            boolean isConsiderationDateSet = application.getConsiderationDate() != null;
+
+            return isArchivedStatusCorrect && isDescriptionCorrect && isConsiderationDateSet;
 
         } catch (NullPointerException | IllegalArgumentException e) {
             return false;
