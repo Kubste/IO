@@ -5,6 +5,6 @@ Test
 |applicationID	|rejectedDescription		|rejectApplication?	|isArchivedStatusCorrect?	|isDescriptionCorrect?	|isConsiderationDateSet?|
 |0				|"Rejected Description"		|true				|true						|true					|true					|
 |0				|"Rejected Description"		|false				|true						|true					|true					|
-|1				|" "						|false				|false						|false					|false					|
+|1				|blank						|false				|false						|false					|false					|
 |2				|null						|false				|false						|true					|false					|
 |3				|"Rejection Description"	|false				|false						|false					|false					|

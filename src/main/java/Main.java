@@ -1,3 +1,5 @@
+import FitNesse.RejectApplicationProviderTest;
+import FitNesse.SetUp;
 import Model.Classes.*;
 import Model.Enums.AccessLevel;
 import Model.Facades.activeUser;
@@ -9,10 +11,16 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.stream.Collectors;
+import FitNesse.SetUp;
+import FitNesse.RejectApplicationProviderTest;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+
+        /*SetUp setUp = new SetUp();
+        RejectApplicationProviderTest rejectApplicationProviderTest = new RejectApplicationProviderTest();
+        rejectApplicationProviderTest.rejectApplicationProvider();*/
 
         Faker faker = new Faker();
         Random random = new Random();

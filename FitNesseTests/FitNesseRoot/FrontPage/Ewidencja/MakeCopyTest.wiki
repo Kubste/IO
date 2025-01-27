@@ -1,0 +1,6 @@
+!|makeCopyTest                                                                                   |
+|userId|selectedDepartmentId|selectedCopyType|testCreateCopy?                                    |
+|1     |0                   |FULL            |                                                 |
+|1     |0                   |INCREMENTAL     |                                                 |
+|1     |1                     |FULL            |Provided department is not assigned to this user!|
+|2     |1                     |FULL            |Provided department is not assigned to this user!|

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<suiteResults>
+  <FitNesseVersion>v20241207</FitNesseVersion>
+  <rootPath>FrontPage.Ewidencja</rootPath>
+  <date>2025-01-27T21:24:35+01:00</date>
+  <pageHistoryLink>FrontPage.Ewidencja?pageHistory&amp;resultDate=20250127212435</pageHistoryLink>
+  <pageHistoryReference>
+    <name>FrontPage.Ewidencja.RejectApplication</name>
+    <date>2025-01-27T21:24:35+01:00</date>
+    <pageHistoryLink>FrontPage.Ewidencja.RejectApplication?pageHistory&amp;resultDate=20250127212435</pageHistoryLink>
+    <counts>
+      <right>16</right>
+      <wrong>4</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>33</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.Ewidencja.RejectApplicationProvider</name>
+    <date>2025-01-27T21:24:35+01:00</date>
+    <pageHistoryLink>FrontPage.Ewidencja.RejectApplicationProvider?pageHistory&amp;resultDate=20250127212435</pageHistoryLink>
+    <counts>
+      <right>7</right>
+      <wrong>3</wrong>
+      <ignores>0</ignores>
+      <exceptions>10</exceptions>
+    </counts>
+    <runTimeInMillis>38</runTimeInMillis>
+  </pageHistoryReference>
+  <executionLog>
+    <testSystem>fit:fit.FitServer</testSystem>
+    <command>"C:\Program Files\Java\jdk-21\bin\java" -cp ..\target\classes;C:\Users\jakub\IdeaProjects\IO\FitNesseTests\fitnesse-standalone.jar fit.FitServer DESKTOP-FTE07JF 53716 3863</command>
+    <exitCode>17</exitCode>
+    <stdOut></stdOut>
+    <stdErr>sty 27, 2025 9:24:35 PM Provider.Classes.ApplicationsProvider rejectApplication
+WARNING: 
+
+Odrzucenie wniosku zakonczone niepowodzeniem
+Numer ID wniosku: 0 Numer ID urzednika: 1 Data: 2025-01-27T21:24:35.792812300
+sty 27, 2025 9:24:35 PM Provider.Classes.ApplicationsProvider rejectApplication
+WARNING: 
+
+Odrzucenie wniosku zakonczone niepowodzeniem
+Numer ID wniosku: 1 Numer ID urzednika: 1 Data: 2025-01-27T21:24:35.824414200
+sty 27, 2025 9:24:35 PM Provider.Classes.ApplicationsProvider rejectApplication
+WARNING: 
+
+Odrzucenie wniosku zakonczone niepowodzeniem
+Numer ID wniosku: 1 Numer ID urzednika: 1 Data: 2025-01-27T21:24:35.825389200
+sty 27, 2025 9:24:35 PM Provider.Classes.ApplicationsProvider rejectApplication
+WARNING: 
+
+Odrzucenie wniosku zakonczone niepowodzeniem
+Numer ID wniosku: 1 Numer ID urzednika: 1 Data: 2025-01-27T21:24:35.826391700
+sty 27, 2025 9:24:35 PM Provider.Classes.ApplicationsProvider rejectApplication
+WARNING: 
+
+Odrzucenie wniosku zakonczone niepowodzeniem
+Numer ID wniosku: 2 Numer ID urzednika: 1 Data: 2025-01-27T21:24:35.826391700
+</stdErr>
+  </executionLog>
+  <finalCounts>
+    <right>0</right>
+    <wrong>2</wrong>
+    <ignores>0</ignores>
+    <exceptions>0</exceptions>
+  </finalCounts>
+  <totalRunTimeInMillis>566</totalRunTimeInMillis>
+</suiteResults>
+

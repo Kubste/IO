@@ -4,7 +4,7 @@ Test
 !|RejectApplicationProviderTest|
 |applicationID	|rejectedDescription	|accessLevel	|rejectApplicationProvider?	|isAccessLevelCorrect?	|isMailCorrect?	|areLogsCorrect?	|
 |0				|"Description"			|OFFICIAL		|true						|true					|true			|true				|
-|1				|"Description"			|CITIZEN		|false						|false					|true			|true				|
-|1				|"Description"			|ADMIN			|false						|false					|true			|true				|
-|1				|" "					|OFFICIAL		|false						|false					|false			|true				|
+|1				|"Description"			|CITIZEN		|false						|false					|false			|true				|
+|1				|"Description"			|ADMIN			|false						|false					|false			|true				|
+|1				|blank					|OFFICIAL		|false						|true					|true			|true				|
 |2				|"Description"			|OFFICIAL		|true						|true					|true			|true				|

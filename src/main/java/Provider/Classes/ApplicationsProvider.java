@@ -6,7 +6,6 @@ import Model.Enums.AccessLevel;
 import Provider.Facades.listApplications;
 import Provider.Facades.manageApplications;
 import View.Classes.ApplicationsView;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

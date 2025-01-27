@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SetUp extends ColumnFixture {
+public class SetUp extends Fixture {
 
     static ApplicationsProvider applicationsProvider;
 
