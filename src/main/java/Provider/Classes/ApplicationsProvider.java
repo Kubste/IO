@@ -38,7 +38,6 @@ public class ApplicationsProvider extends Provider implements manageApplications
 				.findFirst();
 
         return application.map(Application::getDescription).orElse(null);
-
 	}
 
 	@Override

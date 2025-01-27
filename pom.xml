@@ -20,7 +20,6 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -46,6 +45,12 @@
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.fitnesse</groupId>
+            <artifactId>fitnesse</artifactId>
+            <version>20241207</version>
+            <scope>provided</scope>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.junit</groupId>-->

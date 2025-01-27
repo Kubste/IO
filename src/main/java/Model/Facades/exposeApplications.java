@@ -51,12 +51,16 @@ public abstract class exposeApplications {
 	 * 
 	 * @param applicationID
 	 */
-	public static void rejectApplication(int applicationID, String rejectedDescription){
+	public static boolean rejectApplication(int applicationID, String rejectedDescription){
 		Application application = Objects.requireNonNull(DBManager.getInstance().getDatabase().getAllApplications().stream().
-                filter(app -> app.getId() == applicationID).findFirst().orElse(null));
+                filter(app -> app.getId() == applicationID && !app.isArchived()).findFirst().orElse(null));
+
+		if(rejectedDescription == null) throw new IllegalArgumentException("Rejected description is null");
+		if(rejectedDescription.isEmpty()) throw new IllegalArgumentException("Rejected description is empty");
+
 		application.setRejectParams(rejectedDescription);
 		application.update();
-		//DBManager.getInstance().update(application);
+		return true;
 	}
 
 
