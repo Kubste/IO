@@ -11,19 +11,14 @@ public class makeCopyTest extends ColumnFixture {
 
     private int userId;
     private int selectedDepartmentId;
-    private CopyType selectedCopyType;
-
-
-
-    public void setSelectedCopyType(String selectedCopyType) {
-        // Convert string to enum
-        this.selectedCopyType = CopyType.valueOf(selectedCopyType.toUpperCase());
-    }
+    private String selectedCopyType;
 
 
     public String testCreateCopy() throws Exception {
+
+        CopyType copyTypeEnumValue = CopyType.valueOf(selectedCopyType);
         try{
-            boolean result = makeCopy.startCreateCopy(userId, selectedDepartmentId, selectedCopyType);
+            boolean result = makeCopy.startCreateCopy(userId, selectedDepartmentId, copyTypeEnumValue);
 
             return (result) ? "" : "Unexpected Error";
         } catch(Exception e){
