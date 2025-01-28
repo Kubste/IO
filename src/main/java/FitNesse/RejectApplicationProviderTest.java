@@ -62,6 +62,7 @@ public class RejectApplicationProviderTest extends ColumnFixture {
     }
 
     public boolean isMailCorrect() {
+        if(mailOutput == null || rejectedDescription == null) return false;
         return mailOutput.contains(rejectedDescription) && !mailOutput.isEmpty();
     }
 

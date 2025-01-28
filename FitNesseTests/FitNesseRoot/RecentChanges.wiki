@@ -1,7 +1,7 @@
-|FrontPage.Ewidencja.RejectApplicationProvider||24:11:26 wt., sty 28, 2025|
+|FrontPage.Ewidencja.RejectApplicationProvider||24:55:24 wt., sty 28, 2025|
+|FrontPage.Ewidencja.RejectApplication||24:54:57 wt., sty 28, 2025|
 |FrontPage.Ewidencja.MakeCopyTest||23:23:04 pon., sty 27, 2025|
 |FrontPage.Ewidencja.GetAssignedDepartmentsTest||22:46:46 pon., sty 27, 2025|
-|FrontPage.Ewidencja.RejectApplication||22:36:03 pon., sty 27, 2025|
 |FrontPage.Ewidencja||21:07:01 pon., sty 27, 2025|
 |FrontPage.Ewidencja.SetUp||04:01:36 pon., sty 27, 2025|
 |FrontPage||03:41:02 pon., sty 27, 2025|

@@ -69,11 +69,11 @@ public class ApplicationsProvider extends Provider implements manageApplications
 			exposeApplications.rejectApplication(id, rejectDescription);
 			this.sendMail(this.getApplicant(id), "Wniosek odrzucony, uzasadnienie odrzucenia: " + rejectDescription);
 		} catch(Exception ex) {
-			logger.warning("\n\nOdrzucenie wniosku zakonczone niepowodzeniem\nNumer ID wniosku: " + id + " Numer ID urzednika: " + this.loggedUser.getId() + " Data: " + LocalDateTime.now());
+			logger.info("\nOdrzucenie wniosku zakonczone niepowodzeniem\nNumer ID wniosku: " + id + " Numer ID urzednika: " + this.loggedUser.getId() + " Data: " + LocalDateTime.now());
 			throw ex;
 		}
 
-		logger.info("\n\nOdrzucenie wniosku zakonczone powodzeniem\nNumer ID wniosku: " + id + " Numer ID urzednika: " + this.loggedUser.getId() + " Data: " + LocalDateTime.now());
+		logger.info("\nOdrzucenie wniosku zakonczone powodzeniem\nNumer ID wniosku: " + id + " Numer ID urzednika: " + this.loggedUser.getId() + " Data: " + LocalDateTime.now());
 		return true;
 	}
 
